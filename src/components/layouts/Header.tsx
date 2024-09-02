@@ -1,5 +1,5 @@
 import React from "react";
-import { Container } from "../Container";
+import { Container } from "../ui/container/Container";
 import { Link, NavLink } from "react-router-dom";
 import { ShoppingCartIcon } from "@heroicons/react/24/outline";
 

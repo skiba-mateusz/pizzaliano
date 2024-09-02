@@ -1,5 +1,5 @@
 import React from "react";
-import { Container } from "@/components";
+import { Container } from "@/components/ui/container";
 
 export const MenuRoute: React.FC = () => {
   return (
