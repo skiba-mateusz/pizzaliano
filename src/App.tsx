@@ -1,8 +1,15 @@
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { AppLayout } from "./components";
+
 function App() {
   return (
-    <>
-      <h1>Pizzaliano</h1>
-    </>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<AppLayout />}>
+          <Route index element={null} />
+        </Route>
+      </Routes>
+    </BrowserRouter>
   );
 }
 
