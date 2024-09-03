@@ -12,7 +12,7 @@ export const Head: React.FC<HeadProps> = ({ title, description }) => {
       title={title ? `Pizzaliano | ${title}` : undefined}
       defaultTitle="Pizzaliano | Home"
     >
-      <meta name="keywords" content={description} />
+      <meta name="description" content={description} />
     </Helmet>
   );
 };
