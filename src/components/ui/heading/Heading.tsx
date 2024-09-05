@@ -2,12 +2,12 @@ import classNames from "classnames";
 import React from "react";
 
 const levels = {
-  h1: "text-6xl",
-  h2: "text-4xl",
-  h3: "text-3xl",
-  h4: "text-2xl",
-  h5: "text-xl",
-  h6: "text-lg",
+  h1: "text-5xl sm:text-6xl",
+  h2: "text-3xl sm:text-4xl",
+  h3: "text-xl sm:text-2xl",
+  h4: "text-xl",
+  h5: "text-lg",
+  h6: "text-base",
 };
 
 const variants = {

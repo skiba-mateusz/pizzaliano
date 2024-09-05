@@ -2,8 +2,8 @@ import classNames from "classnames";
 import React from "react";
 
 const variants = {
-  narrow: "max-w-[48rem]",
-  wide: "max-w-[78rem]",
+  narrow: "max-w-[62rem]",
+  wide: "max-w-[84rem]",
   full: "w-full",
 };
 

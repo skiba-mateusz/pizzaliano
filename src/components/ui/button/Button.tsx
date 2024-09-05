@@ -11,7 +11,7 @@ const variants = {
 
 const sizes = {
   small: "text-sm",
-  medium: "text-md",
+  medium: "text-base",
   large: "text-lg",
 };
 
@@ -38,7 +38,7 @@ export const Button: React.FC<ButtonProps> = ({
     sizes[size],
     className,
     {
-      "aspect-square p-[.6em_.6em]": iconOnly,
+      "aspect-square p-[.8em]": iconOnly,
     }
   );
 
