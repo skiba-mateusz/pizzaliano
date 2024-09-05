@@ -1,5 +1,10 @@
+import { AppProvider } from "./AppProvider";
 import { AppRouter } from "./Router";
 
 export function App() {
-  return <AppRouter />;
+  return (
+    <AppProvider>
+      <AppRouter />
+    </AppProvider>
+  );
 }
