@@ -1,12 +1,15 @@
 import React from "react";
-import { Container } from "@/components/ui/container";
+import { MenuView } from "@/features/menu/components/MenuView";
+import { Head } from "@/components/seo";
 
 export const MenuRoute: React.FC = () => {
   return (
-    <section>
-      <Container>
-        <h1>Menu</h1>
-      </Container>
-    </section>
+    <>
+      <Head
+        title="Explore Our Menu"
+        description="Discover our diverse menu featuring a wide range of delicious dishes. Find your new favorite meal today!"
+      />
+      <MenuView />
+    </>
   );
 };

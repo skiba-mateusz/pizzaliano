@@ -3,6 +3,8 @@ import { Container } from "@/components/ui/container";
 import { Heading } from "@/components/ui/heading";
 import { Button } from "@/components/ui/button";
 import { Head } from "@/components/seo";
+import { MenuList } from "@/features/menu/components/MenuList";
+import { useMenu } from "@/features/menu/contexts/MenuContext";
 
 export const HomeRoute: React.FC = () => {
   return (
@@ -53,18 +55,20 @@ const HeroImage: React.FC = () => {
         className="m-auto"
         src="/hero-pizza.png"
         alt="Delicious pizza slice"
-        loading="lazy"
+        width={492}
+        height={492}
       />
     </div>
   );
 };
 
 const Promotions: React.FC = () => {
+  const { items } = useMenu();
   return (
     <section className="my-12">
-      <Container>
+      <Container variant="narrow">
         <Heading level="h2">Promotions</Heading>
-        {/* TODO: add menu items here */}
+        <MenuList items={items.promotions} />
       </Container>
     </section>
   );
