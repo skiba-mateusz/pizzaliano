@@ -1,134 +1,143 @@
-[
-  {
-    "id": 1,
-    "name": "Margherita Pizza",
-    "description": "Cheese, tomatoes, basil",
-    "image": "/pizza-1.jpg",
-    "type": "pizzas",
-    "originalPrice": 12.99,
-    "currentPrice": 9.99,
-    "onPromotion": true
-  },
-  {
-    "id": 2,
-    "name": "Cheeseburger",
-    "description": "Beef steak, cheese, tomatoes, salad, cucumber",
-    "image": "/burger-1.jpg",
-    "type": "burgers",
-    "currentPrice": 8.0,
-    "onPromotion": false
-  },
-  {
-    "id": 3,
-    "name": "Coke",
-    "description": "Fresh, cold drink",
-    "image": "/drink-0.jpg",
-    "type": "drinks",
-    "originalPrice": 3.0,
-    "currentPrice": 2.0,
-    "onPromotion": true
-  },
-  {
-    "id": 4,
-    "name": "Pepperoni Pizza",
-    "description": "Spicy pepperoni, cheese, tomato sauce",
-    "image": "/pizza-2.jpg",
-    "type": "pizzas",
-    "originalPrice": 14.99,
-    "currentPrice": 11.99,
-    "onPromotion": false
-  },
-  {
-    "id": 5,
-    "name": "Veggie Burger",
-    "description": "Vegetable patty, lettuce, tomato, avocado",
-    "image": "/burger-2.jpg",
-    "type": "burgers",
-    "originalPrice": 11.99,
-    "currentPrice": 9.99,
-    "onPromotion": true
-  },
-  {
-    "id": 6,
-    "name": "Lemonade",
-    "description": "Refreshing, cold drink",
-    "image": "drink-4.jpg",
-    "type": "drinks",
-    "currentPrice": 2.5,
-    "onPromotion": false
-  },
-  {
-    "id": 7,
-    "name": "BBQ Chicken Pizza",
-    "description": "BBQ sauce, chicken, onions, cheese",
-    "image": "/pizza-3.jpg",
-    "type": "pizzas",
-    "currentPrice": 12.0,
-    "onPromotion": false
-  },
-  {
-    "id": 8,
-    "name": "Grilled Chicken Burger",
-    "description": "Grilled chicken breast, lettuce, mayo",
-    "image": "/burger-3.jpg",
-    "type": "burgers",
-    "currentPrice": 9.99,
-    "onPromotion": false
-  },
-  {
-    "id": 9,
-    "name": "Burger",
-    "description": "Chicken breast, cheese, lettuce",
-    "image": "/burger-4.jpg",
-    "type": "burgers",
-    "currentPrice": 5.0,
-    "onPromotion": false
-  },
-  {
-    "id": 10,
-    "name": "Hawaiian Pizza",
-    "description": "Ham, pineapple, cheese",
-    "image": "/pizza-4.jpg",
-    "type": "pizzas",
-    "originalPrice": 13.5,
-    "currentPrice": 11.5,
-    "onPromotion": true
-  },
-  {
-    "id": 11,
-    "name": "Root Beer",
-    "description": "Classic root beer soda",
-    "image": "drink-2.jpg",
-    "type": "drinks",
-    "currentPrice": 2.5,
-    "onPromotion": false
-  },
-  {
-    "id": 12,
-    "name": "Chicken Alfredo Pizza",
-    "description": "Creamy Alfredo sauce, chicken, mushrooms",
-    "image": "/pizza-3.jpg",
-    "type": "pizzas",
-    "originalPrice": 16.0,
-    "currentPrice": 13.0,
-    "onPromotion": false
-  },
-  {
-    "id": 13,
-    "name": "Coffee",
-    "description": "Aromatic, freshly ground coffee",
-    "image": "drink-3.jpg",
-    "type": "drinks",
-    "currentPrice": 3.5,
-    "onPromotion": false
-  },
-  {
-    "id": 14,
-    "name": "Buffalo Chicken Pizza",
-    "description": "Spicy buffalo chicken, cheese, celery",
-    "image": "/pizza-5.jpg",
-    "type": "pizzas",
-    "currentPrice": 11.5,
-    "onPromotion": false
-  }
-]
+{
+  "items": [
+    {
+      "id": 1,
+      "name": "Margherita Pizza",
+      "description": "Cheese, tomatoes, basil",
+      "image": "/pizza-1.jpg",
+      "categories": ["pizzas", "promotions"],
+      "originalPrice": 12.99,
+      "currentPrice": 9.99,
+      "onPromotion": true
+    },
+    {
+      "id": 2,
+      "name": "Cheeseburger",
+      "description": "Beef steak, cheese, tomatoes, salad, cucumber",
+      "image": "/burger-1.jpg",
+      "categories": ["burgers"],
+      "currentPrice": 8.0,
+      "onPromotion": false
+    },
+    {
+      "id": 3,
+      "name": "Coke",
+      "description": "Fresh, cold drink",
+      "image": "/drink-1.jpg",
+      "categories": ["drinks", "promotions"],
+      "originalPrice": 3.0,
+      "currentPrice": 2.0,
+      "onPromotion": true
+    },
+    {
+      "id": 4,
+      "name": "Pepperoni Pizza",
+      "description": "Spicy pepperoni, cheese, tomato sauce",
+      "image": "/pizza-2.jpg",
+      "categories": ["pizzas", "promotions"],
+      "originalPrice": 14.99,
+      "currentPrice": 11.99,
+      "onPromotion": false
+    },
+    {
+      "id": 5,
+      "name": "Veggie Burger",
+      "description": "Vegetable patty, lettuce, tomato, avocado",
+      "image": "/burger-2.jpg",
+      "categories": ["burgers", "promotions"],
+      "originalPrice": 11.99,
+      "currentPrice": 9.99,
+      "onPromotion": true
+    },
+    {
+      "id": 6,
+      "name": "Lemonade",
+      "description": "Refreshing, cold drink",
+      "image": "drink-4.jpg",
+      "categories": ["drinks"],
+      "currentPrice": 2.5,
+      "onPromotion": false
+    },
+    {
+      "id": 7,
+      "name": "BBQ Chicken Pizza",
+      "description": "BBQ sauce, chicken, onions, cheese",
+      "image": "/pizza-3.jpg",
+      "categories": ["pizzas"],
+      "currentPrice": 12.0,
+      "onPromotion": false
+    },
+    {
+      "id": 8,
+      "name": "Grilled Chicken Burger",
+      "description": "Grilled chicken breast, lettuce, mayo",
+      "image": "/burger-3.jpg",
+      "categories": ["burgers"],
+      "currentPrice": 9.99,
+      "onPromotion": false
+    },
+    {
+      "id": 9,
+      "name": "Burger",
+      "description": "Chicken breast, cheese, lettuce",
+      "image": "/burger-4.jpg",
+      "categories": ["burgers"],
+      "currentPrice": 5.0,
+      "onPromotion": false
+    },
+    {
+      "id": 10,
+      "name": "Hawaiian Pizza",
+      "description": "Ham, pineapple, cheese",
+      "image": "/pizza-4.jpg",
+      "categories": ["pizzas"],
+      "originalPrice": 13.5,
+      "currentPrice": 11.5,
+      "onPromotion": true
+    },
+    {
+      "id": 11,
+      "name": "Root Beer",
+      "description": "Classic root beer soda",
+      "image": "drink-2.jpg",
+      "categories": ["drinks"],
+      "currentPrice": 2.5,
+      "onPromotion": false
+    },
+    {
+      "id": 12,
+      "name": "Chicken Alfredo Pizza",
+      "description": "Creamy Alfredo sauce, chicken, mushrooms",
+      "image": "/pizza-3.jpg",
+      "categories": ["pizzas"],
+      "originalPrice": 16.0,
+      "currentPrice": 13.0,
+      "onPromotion": false
+    },
+    {
+      "id": 13,
+      "name": "Coffee",
+      "description": "Aromatic, freshly ground coffee",
+      "image": "drink-3.jpg",
+      "categories": ["drinks"],
+      "currentPrice": 3.5,
+      "onPromotion": false
+    },
+    {
+      "id": 14,
+      "name": "Buffalo Chicken Pizza",
+      "description": "Spicy buffalo chicken, cheese, celery",
+      "image": "/pizza-5.jpg",
+      "categories": ["pizzas"],
+      "currentPrice": 11.5,
+      "onPromotion": false
+    }
+  ],
+  "categories": [
+    { "label": "All", "value": "" },
+    { "label": "Pizzas", "value": "pizzas" },
+    { "label": "Burgers", "value": "burgers" },
+    { "label": "Promotions", "value": "promotions" },
+    { "label": "Drinks", "value": "drinks" }
+  ]
+}

@@ -1,7 +1,0 @@
-[
-  { "label": "All", "value": "" },
-  { "label": "Pizzas", "value": "pizzas" },
-  { "label": "Burgers", "value": "burgers" },
-  { "label": "Promotions", "value": "promotions" },
-  { "label": "Drinks", "value": "drinks" }
-]
