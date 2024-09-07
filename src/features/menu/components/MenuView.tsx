@@ -1,26 +1,55 @@
-import React from "react";
+import React, { useMemo } from "react";
+import { useSearchParams } from "react-router-dom";
+import menuData from "@/data/menu.json";
 import { Container } from "@/components/ui/container";
 import { Heading } from "@/components/ui/heading";
-import { useMenu } from "../contexts/MenuContext";
 import { MenuList } from "./MenuList";
+import { Loader } from "@/components/ui/loader/Loader";
+import { useFetch } from "@/hooks/useFetch";
+import { CategoryType, Menu, MenuItem as MenuItemType } from "../types";
 
 export const MenuView: React.FC = () => {
-  const { items } = useMenu();
+  const { data: menu, isLoading } = useFetch(menuData as Menu);
+  const [searchParams] = useSearchParams();
 
-  return (
+  const categorizedMenuItems = useMemo(() => {
+    const categories: Record<CategoryType, MenuItemType[]> = {
+      promotions: [],
+      pizzas: [],
+      burgers: [],
+      drinks: [],
+    };
+
+    const categoryParam = searchParams.get("category") || "";
+
+    menu.items?.forEach((item) => {
+      item.categories.forEach((category) => {
+        if (category !== categoryParam && categoryParam !== "") return;
+        categories[category].push(item);
+      });
+    });
+
+    return categories;
+  }, [menu, searchParams]);
+
+  return !isLoading ? (
     <>
-      {Object.keys(items).map((type) => {
-        const filterType = type as keyof typeof items;
-        if (items[filterType].length > 0)
+      {Object.keys(categorizedMenuItems).map((category) => {
+        if (categorizedMenuItems[category as CategoryType].length > 0)
           return (
-            <section className="py-6" key={filterType}>
+            <section className="py-6" key={category}>
               <Container variant="narrow">
-                <Heading level="h2">{filterType}</Heading>
-                <MenuList items={items[filterType]} />
+                <Heading level="h2">{category}</Heading>
+                <MenuList
+                  items={categorizedMenuItems[category as CategoryType]}
+                />
               </Container>
             </section>
           );
       })}
+      )
     </>
+  ) : (
+    <Loader />
   );
 };

@@ -1,6 +1,6 @@
 import React from "react";
-import { MenuItem as MenuItemType } from "../contexts/MenuContext";
 import { MenuItem } from "./MenuItem";
+import { MenuItem as MenuItemType } from "../types";
 
 export const MenuList: React.FC<{ items: MenuItemType[] }> = ({ items }) => {
   return (

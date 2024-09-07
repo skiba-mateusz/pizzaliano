@@ -2,7 +2,7 @@ import React from "react";
 import { ShoppingCartIcon } from "@heroicons/react/24/outline";
 import { Heading } from "@/components/ui/heading";
 import { Button } from "@/components/ui/button";
-import { MenuItem as MenuItemType } from "../contexts/MenuContext";
+import { MenuItem as MenuItemType } from "../types";
 
 export const MenuItem: React.FC<{ item: MenuItemType }> = ({ item }) => {
   return (
@@ -10,11 +10,10 @@ export const MenuItem: React.FC<{ item: MenuItemType }> = ({ item }) => {
       <article className="h-full flex flex-col border-b border-neutral-200 hover:shadow-md">
         <img
           className="rounded-md aspect-square object-cover"
-          loading="lazy"
           src={item.image}
           alt={item.name}
+          loading="lazy"
         />
-
         <div className="flex-1 flex flex-col">
           <div className="p-2">
             <Heading
