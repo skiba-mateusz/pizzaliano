@@ -7,6 +7,7 @@ import { MenuList } from "./MenuList";
 import { Loader } from "@/components/ui/loader/Loader";
 import { useFetch } from "@/hooks/useFetch";
 import { CategoryType, Menu, MenuItem as MenuItemType } from "../types";
+import { MenuCategories } from "./MenuCategories";
 
 export const MenuView: React.FC = () => {
   const { data: menu, isLoading } = useFetch(menuData as Menu);
@@ -34,6 +35,7 @@ export const MenuView: React.FC = () => {
 
   return !isLoading ? (
     <>
+      <MenuCategories categories={menu.categories} />
       {Object.keys(categorizedMenuItems).map((category) => {
         if (categorizedMenuItems[category as CategoryType].length > 0)
           return (
