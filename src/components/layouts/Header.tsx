@@ -24,8 +24,8 @@ export const Header: React.FC = () => {
   const [isNavOpen, setIsNavOpen] = useState(false);
 
   return (
-    <header className="py-3 shadow-md">
-      <Container className="flex items-center justify-between">
+    <header className="top-0 sticky z-10 h-[4rem] bg-neutral-50 border-b border-neutral-300">
+      <Container className="h-full flex items-center justify-between">
         <Nav />
         <Button
           className="md:hidden"
