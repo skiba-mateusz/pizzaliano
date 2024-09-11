@@ -28,7 +28,7 @@ export const Drawer: React.FC<DrawerProps> = ({
     <DrawerProvider onClose={onClose} titleID={titleID}>
       <div
         className={classNames(
-          "fixed top-0 bottom-0 w-full sm:max-w-[24rem] flex flex-col bg-neutral-50 border border-neutral-300 z-20",
+          "fixed top-0 bottom-0 w-full sm:max-w-[32rem] flex flex-col bg-neutral-50 border border-neutral-300 z-20",
           className,
           position === "right" ? "right-0" : "left-0"
         )}

@@ -21,7 +21,7 @@ export const Hero: React.FC = () => {
         <div className="flex-1">
           <img
             className="m-auto"
-            src="/hero-pizza.png"
+            src="/images/hero-pizza.png"
             alt="Delicious pizza slice"
             fetchPriority="high"
             width={492}

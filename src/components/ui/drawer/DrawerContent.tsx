@@ -5,5 +5,9 @@ export const DrawerContent: React.FC<DrawerComponentProps> = ({
   className,
   children,
 }) => {
-  return <div className={classNames("p-4 flex-1", className)}>{children}</div>;
+  return (
+    <div className={classNames("p-4 flex-1 overflow-auto", className)}>
+      {children}
+    </div>
+  );
 };

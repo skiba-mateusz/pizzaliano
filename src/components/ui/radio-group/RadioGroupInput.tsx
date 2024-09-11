@@ -16,40 +16,33 @@ export const RadioGroupInput: React.FC<RadioGroupInputProps> = ({
   const id = useId();
 
   const handleChange = () => {
+    document.body.scrollIntoView({ behavior: "smooth", block: "start" });
     onChange(value);
     if (customOnChange) {
       customOnChange(value);
     }
   };
 
-  const handleKeyDown = (e: React.KeyboardEvent) => {
-    if (e.key === "Enter") {
-      e.preventDefault();
-      handleChange();
-    }
-  };
-
   return (
     <div className="flex-1">
       <input
-        className="sr-only"
+        className="peer sr-only"
         id={id}
         type="radio"
         checked={value === selectedValue}
         value={value}
+        tabIndex={value === selectedValue ? 0 : -1}
         onChange={handleChange}
       />
       <label
-        tabIndex={0}
         className={classNames(
-          "p-[.6em_1.2em] block text-center border border-rose-500 rounded-md cursor-pointer outline-none ring-offset ring-rose-300 transition-all  focus:ring",
+          "p-[.6em_1.2em] block text-center border border-rose-500 rounded-md cursor-pointer outline-none ring-offset-1 ring-rose-300 transition-all peer-focus:ring",
           {
             "bg-rose-500 text-neutral-50": value === selectedValue,
             "hover:bg-rose-50": value !== selectedValue,
           }
         )}
         htmlFor={id}
-        onKeyDown={handleKeyDown}
       >
         {children}
       </label>

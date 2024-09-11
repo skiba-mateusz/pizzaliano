@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import { Link, NavLink } from "react-router-dom";
+import classNames from "classnames";
+import { NavLink } from "react-router-dom";
 import {
   Bars3BottomLeftIcon,
   ShoppingCartIcon,
@@ -14,15 +15,124 @@ import {
 import { Container } from "../ui/container/Container";
 import { Button } from "../ui/button";
 import { useSticky } from "@/hooks/useSticky";
-import classNames from "classnames";
 import { useCart } from "@/features/cart/contexts/CartContext";
-import { Message } from "../ui/message";
 import { CartList } from "@/features/cart/components/CartList";
+import { Logo } from "../ui/logo";
 
 const navLinks = [
   { to: "/", label: "Home" },
   { to: "/menu", label: "Menu" },
 ];
+
+interface NavItemProps {
+  label: string;
+  to: string;
+  onNavLinkClick?: () => void;
+}
+
+const NavItem: React.FC<NavItemProps> = ({ label, to, onNavLinkClick }) => {
+  return (
+    <li key={label}>
+      <NavLink
+        to={to}
+        onClick={onNavLinkClick}
+        className="relative aria-[current]:text-rose-500"
+      >
+        {label}
+      </NavLink>
+    </li>
+  );
+};
+
+interface NavProps {
+  isMobile?: boolean;
+  onNavLinkClick?: () => void;
+}
+
+const Nav: React.FC<NavProps> = ({ isMobile = false, onNavLinkClick }) => {
+  return (
+    <nav
+      className={classNames({
+        "hidden md:block": !isMobile,
+      })}
+      aria-label="Primary"
+    >
+      <ul
+        className={classNames(
+          {
+            "grid text-lg text-center": isMobile,
+            flex: !isMobile,
+          },
+          "gap-4"
+        )}
+      >
+        {navLinks.map((navLink) => (
+          <NavItem
+            label={navLink.label}
+            to={navLink.to}
+            onNavLinkClick={onNavLinkClick}
+          />
+        ))}
+      </ul>
+    </nav>
+  );
+};
+
+interface CartDrawerProps {
+  open: boolean;
+  onClose: () => void;
+  numItems: number;
+  items: any[];
+}
+
+const CartDrawer: React.FC<CartDrawerProps> = ({
+  open,
+  onClose,
+  numItems,
+  items,
+}) => {
+  return (
+    <Drawer open={open} onClose={onClose} position="right">
+      <DrawerHeader>
+        <DrawerTitle>Cart ({numItems})</DrawerTitle>
+      </DrawerHeader>
+      <DrawerContent>
+        <CartList items={items} />
+      </DrawerContent>
+      <DrawerFooter>
+        <Button to="/cart" onClick={onClose}>
+          Cart
+        </Button>
+        <Button
+          className="mt-4"
+          to="/order"
+          onClick={onClose}
+          variant="outlined"
+        >
+          Order
+        </Button>
+      </DrawerFooter>
+    </Drawer>
+  );
+};
+
+interface NavDrawerProps {
+  open: boolean;
+  onClose: () => void;
+}
+
+const NavDrawer: React.FC<NavDrawerProps> = ({ open, onClose }) => {
+  return (
+    <Drawer open={open} onClose={onClose} position="left">
+      <DrawerHeader>
+        <DrawerTitle>Pizzaliano</DrawerTitle>
+      </DrawerHeader>
+      <DrawerContent>
+        <Nav isMobile onNavLinkClick={onClose} />
+      </DrawerContent>
+    </Drawer>
+  );
+};
 
 export const Header: React.FC = () => {
   const {
@@ -57,7 +167,9 @@ export const Header: React.FC = () => {
           <Bars3BottomLeftIcon className="size-6" />
           <span className="sr-only">Open nav</span>
         </Button>
-        <Logo />
+        <div className="absolute left-1/2 -translate-x-1/2">
+          <Logo />
+        </div>
         <Button
           className="relative"
           variant="transparent"
@@ -76,95 +188,14 @@ export const Header: React.FC = () => {
             </div>
           )}
         </Button>
-
-        {/* Cart Drawer */}
-        <Drawer
+        <CartDrawer
           open={isCartOpen}
           onClose={() => setIsCartOpen(false)}
-          position="right"
-        >
-          <DrawerHeader>
-            <DrawerTitle>Cart ({numItems})</DrawerTitle>
-          </DrawerHeader>
-          <DrawerContent>
-            <CartList items={items} />
-          </DrawerContent>
-          <DrawerFooter>
-            <Button to="/cart" onClick={() => setIsCartOpen(false)}>
-              Cart
-            </Button>
-            <Button
-              className="mt-4"
-              to="/order"
-              onClick={() => setIsCartOpen(false)}
-              variant="outlined"
-            >
-              Order
-            </Button>
-          </DrawerFooter>
-        </Drawer>
-
-        {/* Navigation Drawer */}
-        <Drawer
-          open={isNavOpen}
-          onClose={() => setIsNavOpen(false)}
-          position="left"
-        >
-          <DrawerHeader>
-            <DrawerTitle>Pizzaliano</DrawerTitle>
-          </DrawerHeader>
-          <DrawerContent>
-            <MobileNav onNavLinkClick={() => setIsNavOpen(false)} />
-          </DrawerContent>
-        </Drawer>
+          numItems={numItems}
+          items={items}
+        />
+        <NavDrawer open={isNavOpen} onClose={() => setIsNavOpen(false)} />
       </Container>
     </header>
-  );
-};
-
-const Logo: React.FC = () => {
-  return (
-    <Link
-      to="/"
-      className="font-heading tracking-wide text-rose-500 font-bold text-3xl"
-    >
-      Pizzaliano
-    </Link>
-  );
-};
-
-const Nav: React.FC = () => {
-  return (
-    <nav className="hidden md:block">
-      <ul className="flex gap-4">
-        {navLinks.map((navLink) => (
-          <li key={navLink.label}>
-            <NavLink to={navLink.to}>{navLink.label}</NavLink>
-          </li>
-        ))}
-      </ul>
-    </nav>
-  );
-};
-
-const MobileNav: React.FC<{ onNavLinkClick: () => void }> = ({
-  onNavLinkClick,
-}) => {
-  return (
-    <nav>
-      <ul className="grid gap-4">
-        {navLinks.map((navLink) => (
-          <li key={navLink.label}>
-            <NavLink
-              className="p-2 block text-center"
-              to={navLink.to}
-              onClick={onNavLinkClick}
-            >
-              {navLink.label}
-            </NavLink>
-          </li>
-        ))}
-      </ul>
-    </nav>
   );
 };

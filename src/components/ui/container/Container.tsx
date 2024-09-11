@@ -19,7 +19,7 @@ export const Container: React.FC<ContainerProps> = ({
   children,
 }) => {
   return (
-    <div className={classNames("mx-auto p-4", variants[variant], className)}>
+    <div className={classNames("mx-auto px-4", variants[variant], className)}>
       {children}
     </div>
   );

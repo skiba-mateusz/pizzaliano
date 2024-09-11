@@ -30,7 +30,7 @@ export const WhyChooseUs: React.FC = () => {
           Why To choose us?
         </Heading>
       </div>
-      <Container className="col-span-full row-start-2 row-end-4 flex flex-col gap-8 md:flex-row md:gap-8 lg:gap-16">
+      <Container className="pb-4 col-span-full row-start-2 row-end-4 flex flex-col gap-8 md:flex-row md:gap-8 lg:gap-16">
         <WhyUsCard
           title="Fast Delivery"
           description="Customer satisfaction is our top priority, so we ensure that your order arrives quickly."
