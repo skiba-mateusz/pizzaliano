@@ -3,15 +3,26 @@ import { ShoppingCartIcon } from "@heroicons/react/24/outline";
 import { Heading } from "@/components/ui/heading";
 import { Button } from "@/components/ui/button";
 import { MenuItem as MenuItemType } from "../types";
+import { useCart } from "@/features/cart/contexts/CartContext";
+import { CartActionTypes } from "@/features/cart/types";
 
 export const MenuItem: React.FC<{ item: MenuItemType }> = ({ item }) => {
+  const { dispatch } = useCart();
+
+  const addToCart = () => {
+    dispatch({
+      type: CartActionTypes.ADD_CART_ITEM,
+      payload: { ...item, quantity: 1 },
+    });
+  };
+
   return (
     <li>
       <article className="h-full flex flex-col border-b border-neutral-200 hover:shadow-md">
         <img
           className="rounded-md aspect-square object-cover"
           src={item.image}
-          alt={item.name}
+          alt={`${item.name} - ${item.description}`}
           loading="lazy"
         />
         <div className="flex-1 flex flex-col">
@@ -28,17 +39,17 @@ export const MenuItem: React.FC<{ item: MenuItemType }> = ({ item }) => {
             {item.description}
           </p>
           <div className="p-2 flex items-center border-t border-neutral-200">
-            <Button variant="outlined" iconOnly={true} size="small">
+            <Button variant="outlined" iconOnly={true} onClick={addToCart}>
               <ShoppingCartIcon className="size-6" />
               <span className="sr-only">Add To Cart</span>
             </Button>
             {item.onPromotion ? (
-              <div className="ml-auto text-right">
+              <div className="ml-auto flex flex-col text-right">
                 <span className="text-neutral-700 text-sm line-through">
                   <span className="sr-only">Original price: </span>$
                   {item.originalPrice?.toFixed(2)}
                 </span>
-                <span className="ml-1 text-lg font-bold sm:text-xl ">
+                <span className="ml-1 text-lg font-bold leading-none sm:text-xl0">
                   <span className="sr-only">Discounted price: </span>$
                   {item.currentPrice.toFixed(2)}
                 </span>

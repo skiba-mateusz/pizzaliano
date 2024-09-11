@@ -1,9 +1,7 @@
-import React, { createContext, useContext, useId } from "react";
-import classNames from "classnames";
-import { XMarkIcon } from "@heroicons/react/24/outline";
+import React, { useId } from "react";
 import { createPortal } from "react-dom";
-import { Button } from "../button";
-import { DrawerProvider, useDrawer } from "./DrawerContext";
+import classNames from "classnames";
+import { DrawerProvider } from "./DrawerContext";
 
 interface DrawerProps extends React.PropsWithChildren {
   open: boolean;

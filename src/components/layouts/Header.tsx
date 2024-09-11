@@ -13,6 +13,11 @@ import {
 } from "../ui/drawer";
 import { Container } from "../ui/container/Container";
 import { Button } from "../ui/button";
+import { useSticky } from "@/hooks/useSticky";
+import classNames from "classnames";
+import { useCart } from "@/features/cart/contexts/CartContext";
+import { Message } from "../ui/message";
+import { CartList } from "@/features/cart/components/CartList";
 
 const navLinks = [
   { to: "/", label: "Home" },
@@ -20,11 +25,26 @@ const navLinks = [
 ];
 
 export const Header: React.FC = () => {
+  const {
+    state: { items, numItems },
+  } = useCart();
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [isNavOpen, setIsNavOpen] = useState(false);
+  const [ref, sticky] = useSticky();
+
+  console.log(items);
 
   return (
-    <header className="top-0 sticky z-10 h-[4rem] bg-neutral-50 border-b border-neutral-300">
+    <header
+      ref={ref}
+      className={classNames(
+        "top-0 sticky z-10 bg-neutral-50 transition-all duration-200",
+        {
+          "h-[4rem] border-b border-neutral-300": sticky,
+          "h-[6rem]": !sticky,
+        }
+      )}
+    >
       <Container className="h-full flex items-center justify-between">
         <Nav />
         <Button
@@ -32,15 +52,29 @@ export const Header: React.FC = () => {
           variant="transparent"
           size="small"
           onClick={() => setIsNavOpen(true)}
-          iconOnly={true}
+          iconOnly
         >
           <Bars3BottomLeftIcon className="size-6" />
           <span className="sr-only">Open nav</span>
         </Button>
         <Logo />
-        <Button variant="transparent" onClick={() => setIsCartOpen(true)}>
+        <Button
+          className="relative"
+          variant="transparent"
+          onClick={() => setIsCartOpen(true)}
+          iconOnly
+        >
           <ShoppingCartIcon className="size-6" />
           <span className="sr-only">Open cart</span>
+          {numItems > 0 && (
+            <div
+              className="absolute top-0 right-0 bg-rose-500 text-neutral-50 rounded-full aspect-square h-6 w-6"
+              aria-live="polite"
+              role="status"
+            >
+              {numItems} <span className="sr-only">cart items</span>
+            </div>
+          )}
         </Button>
 
         {/* Cart Drawer */}
@@ -50,13 +84,10 @@ export const Header: React.FC = () => {
           position="right"
         >
           <DrawerHeader>
-            <DrawerTitle>Cart</DrawerTitle>
+            <DrawerTitle>Cart ({numItems})</DrawerTitle>
           </DrawerHeader>
           <DrawerContent>
-            <p>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Saepe,
-              quidem!
-            </p>
+            <CartList items={items} />
           </DrawerContent>
           <DrawerFooter>
             <Button to="/cart" onClick={() => setIsCartOpen(false)}>
