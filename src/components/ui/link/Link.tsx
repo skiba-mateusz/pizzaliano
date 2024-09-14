@@ -3,16 +3,21 @@ import {
   Link as RouterLink,
   LinkProps as RouterLinkProps,
 } from "react-router-dom";
+import classNames from "classnames";
 
 interface LinkProps extends RouterLinkProps {
   children: React.ReactNode;
+  className?: string;
 }
 
-export const Link: React.FC<LinkProps> = ({ to, children }) => {
+export const Link: React.FC<LinkProps> = ({ to, className, children }) => {
   return (
     <RouterLink
       to={to}
-      className="underline-offset-2 hover:text-neutral-700 hover:underline"
+      className={classNames(
+        "underline-offset-2 text-rose-500 hover:underline",
+        className
+      )}
     >
       {children}
     </RouterLink>

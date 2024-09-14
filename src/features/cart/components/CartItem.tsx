@@ -10,6 +10,7 @@ interface QuantityControlsProps {
   name: string;
   onIncrease: () => void;
   onDecrease: () => void;
+  onRemove: () => void;
 }
 
 const QuantityControls: React.FC<QuantityControlsProps> = ({
@@ -17,29 +18,45 @@ const QuantityControls: React.FC<QuantityControlsProps> = ({
   name,
   onIncrease,
   onDecrease,
+  onRemove,
 }) => {
   return (
-    <div className="flex items-center gap-2 text-rose-500 border border-rose-500 rounded-full overflow-hidden">
-      <button
-        className="p-[.5em] aspect-square border-r border-rose-500 outline-none hover:bg-rose-50 focus:bg-rose-50"
-        onClick={onIncrease}
-      >
-        <PlusIcon className="size-5" />
-        <span className="sr-only">Increase quantity of {name}</span>
-      </button>
-      <div className="px-2">{quantity}</div>
-      <button
-        className="p-[.5em] aspect-square border-l border-rose-500 outline-none hover:bg-rose-50 focus:bg-rose-50"
-        onClick={onDecrease}
-      >
-        <MinusIcon className="size-5" />
-        <span className="sr-only">Decrease quantity of {name}</span>
-      </button>
-    </div>
+    <>
+      <div className="flex items-center gap-2 text-rose-500 border border-rose-500 rounded-full overflow-hidden">
+        <button
+          className="p-[.5em] aspect-square border-r border-rose-500 outline-none hover:bg-rose-50 focus:bg-rose-50"
+          onClick={onIncrease}
+        >
+          <PlusIcon className="size-5" />
+          <span className="sr-only">Increase quantity of {name}</span>
+        </button>
+        <div className="px-2">{quantity}</div>
+        <button
+          className="p-[.5em] aspect-square border-l border-rose-500 outline-none hover:bg-rose-50 focus:bg-rose-50"
+          onClick={onDecrease}
+        >
+          <MinusIcon className="size-5" />
+          <span className="sr-only">Decrease quantity of {name}</span>
+        </button>
+      </div>
+      <Button iconOnly size="small" onClick={onRemove}>
+        <TrashIcon className="size-5" />
+        <span className="sr-only">Remove {name} from cart</span>
+      </Button>
+    </>
   );
 };
 
-export const CartItem: React.FC<{ item: CartItemType }> = ({ item }) => {
+interface CartItemProps {
+  item: CartItemType;
+  withQuantityControls?: boolean;
+}
+
+export const CartItem: React.FC<CartItemProps> = ({
+  withQuantityControls = true,
+  item,
+}) => {
+  console.log(withQuantityControls);
   const { dispatch } = useCart();
 
   const decreaseQuantity = () => {
@@ -73,7 +90,7 @@ export const CartItem: React.FC<{ item: CartItemType }> = ({ item }) => {
     <li>
       <article className="flex items-center gap-4">
         <img
-          className="w-[6rem] md:w-[8rem] rounded-md aspect-square object-cover"
+          className="w-[6rem] xl:w-[8rem] rounded-md aspect-square object-cover"
           src={item.image}
           alt={`${item.name} - ${item.description}`}
         />
@@ -82,7 +99,7 @@ export const CartItem: React.FC<{ item: CartItemType }> = ({ item }) => {
             <div className="flex-1">
               <div>
                 <Heading level="h3" variant="plain" className="leading-none">
-                  {item.name}
+                  {item.quantity} {item.name}
                 </Heading>
                 <p className="text-neutral-700 hidden md:block">
                   {item.description}
@@ -90,7 +107,7 @@ export const CartItem: React.FC<{ item: CartItemType }> = ({ item }) => {
               </div>
             </div>
             {item.onPromotion && item.originalPrice ? (
-              <div className="text-right">
+              <div className="flex flex-col text-right">
                 <span className="text-neutral-700 text-sm line-through">
                   <span className="sr-only">Original price: </span>$
                   {(item.originalPrice * item.quantity).toFixed(2)}
@@ -108,16 +125,15 @@ export const CartItem: React.FC<{ item: CartItemType }> = ({ item }) => {
             )}
           </div>
           <div className="flex justify-end gap-2 grow w-full">
-            <QuantityControls
-              quantity={item.quantity}
-              name={item.name}
-              onDecrease={decreaseQuantity}
-              onIncrease={increaseQuantity}
-            />
-            <Button iconOnly size="small" onClick={removeItem}>
-              <TrashIcon className="size-5" />
-              <span className="sr-only">Remove {item.name} from cart</span>
-            </Button>
+            {withQuantityControls ? (
+              <QuantityControls
+                quantity={item.quantity}
+                name={item.name}
+                onDecrease={decreaseQuantity}
+                onIncrease={increaseQuantity}
+                onRemove={removeItem}
+              />
+            ) : null}
           </div>
         </div>
       </article>
