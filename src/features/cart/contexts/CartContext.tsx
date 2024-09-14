@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useReducer } from "react";
+import React, { createContext, useContext, useEffect, useReducer } from "react";
 import { CartActions, CartActionTypes, CartItem } from "../types";
 
 interface CartState {
@@ -85,7 +85,14 @@ const CartContext = createContext<CartContextProps | undefined>(undefined);
 interface CartProviderProps extends React.PropsWithChildren {}
 
 const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
-  const [state, dispatch] = useReducer(cartReducer, initialState);
+  const [state, dispatch] = useReducer(cartReducer, initialState, () => {
+    const cart = localStorage.getItem("cart");
+    return cart ? JSON.parse(cart) : initialState;
+  });
+
+  useEffect(() => {
+    localStorage.setItem("cart", JSON.stringify(state));
+  }, [state]);
 
   return (
     <CartContext.Provider value={{ state, dispatch }}>
