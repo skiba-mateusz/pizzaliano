@@ -12,7 +12,9 @@ export const RadioGroup: React.FC<RadioGroupProps> = ({
   return (
     <RadioGroupProvider defaultValue={defaultValue}>
       <fieldset>
-        <div className="flex flex-wrap gap-2 md:gap-4">{children}</div>
+        <div className="flex justify-center gap-2 flex-wrap md:gap-4">
+          {children}
+        </div>
       </fieldset>
     </RadioGroupProvider>
   );

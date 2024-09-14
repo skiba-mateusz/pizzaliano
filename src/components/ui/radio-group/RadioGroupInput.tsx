@@ -24,7 +24,7 @@ export const RadioGroupInput: React.FC<RadioGroupInputProps> = ({
   };
 
   return (
-    <div className="flex-1">
+    <div>
       <input
         className="peer sr-only"
         id={id}

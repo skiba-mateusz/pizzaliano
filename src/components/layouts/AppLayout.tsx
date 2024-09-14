@@ -17,7 +17,7 @@ export const AppLayout: React.FC = () => {
         position="top-center"
         gutter={8}
         toastOptions={{
-          className: "font-bold text-rose-500",
+          className: "font-bold text-rose-500 ",
           duration: 3000,
         }}
       />

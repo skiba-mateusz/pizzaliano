@@ -8,7 +8,9 @@ const Nav: React.FC = () => {
     <nav aria-label="footer">
       <ul className="flex gap-x-8 gap-y-2 text-nowrap">
         <li>
-          <Link to="/">Privacy policy</Link>
+          <Link to="/" className="text-neutral-700">
+            Privacy policy
+          </Link>
         </li>
         <li>
           <Link to="/">Regulations</Link>
