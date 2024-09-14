@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { MenuItem as MenuItemType } from "../types";
 import { useCart } from "@/features/cart/contexts/CartContext";
 import { CartActionTypes } from "@/features/cart/types";
+import toast from "react-hot-toast";
 
 export const MenuItem: React.FC<{ item: MenuItemType }> = ({ item }) => {
   const { dispatch } = useCart();
@@ -14,6 +15,7 @@ export const MenuItem: React.FC<{ item: MenuItemType }> = ({ item }) => {
       type: CartActionTypes.ADD_CART_ITEM,
       payload: { ...item, quantity: 1 },
     });
+    toast(`${item.name} added to cart`);
   };
 
   return (
