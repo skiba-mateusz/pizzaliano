@@ -1,3 +1,41 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.drawer-right-enter {
+  opacity: 0;
+  transform: translateX(100%);
+}
+.drawer-right-enter-active {
+  opacity: 1;
+  transform: translateX(0);
+  transition: opacity 300ms, transform 300ms;
+}
+.drawer-right-exit {
+  opacity: 1;
+  transform: translateX(0);
+}
+.drawer-right-exit-active {
+  opacity: 0;
+  transform: translateX(100%);
+  transition: opacity 300ms, transform 300ms;
+}
+
+.drawer-left-enter {
+  opacity: 0;
+  transform: translateX(-100%);
+}
+.drawer-left-enter-active {
+  opacity: 1;
+  transform: translateX(0);
+  transition: opacity 300ms, transform 300ms;
+}
+.drawer-left-exit {
+  opacity: 1;
+  transform: translateX(0);
+}
+.drawer-left-exit-active {
+  opacity: 0;
+  transform: translateX(-100%);
+  transition: opacity 300ms, transform 300ms;
+}
