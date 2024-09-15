@@ -34,6 +34,13 @@ const router = createBrowserRouter([
           return { Component: CreateOrderRoute };
         },
       },
+      {
+        path: "*",
+        lazy: async () => {
+          const { NotFoundRoute } = await import("./routes/NotFound");
+          return { Component: NotFoundRoute };
+        },
+      },
     ],
   },
 ]);
