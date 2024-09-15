@@ -4,7 +4,7 @@ import { Container } from "@/components/ui/container";
 
 export const Hero: React.FC = () => {
   return (
-    <section className="my-12">
+    <section className="py-12">
       <Container className="flex flex-col items-center justify-center md:flex-row">
         <div className="flex-1 flex flex-col gap-8">
           <h1 className="font-heading tracking-wide text-center text-5xl sm:text-6xl">

@@ -11,10 +11,15 @@ export const CartView: React.FC = () => {
   } = useCart();
 
   const totalPrice = items
-    .reduce((acc, item, _) => (acc += item.currentPrice * item.quantity), 0)
+    .reduce(
+      (acc, item, _) =>
+        (acc +=
+          (item.promotions
+            ? item.price - item.promotions.discount_value
+            : item.price) * item.quantity),
+      0
+    )
     .toFixed(2);
-
-  console.log(totalPrice);
 
   return (
     <section className="py-8">

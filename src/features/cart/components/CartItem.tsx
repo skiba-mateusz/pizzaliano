@@ -56,7 +56,6 @@ export const CartItem: React.FC<CartItemProps> = ({
   withQuantityControls = true,
   item,
 }) => {
-  console.log(withQuantityControls);
   const { dispatch } = useCart();
 
   const decreaseQuantity = () => {
@@ -91,7 +90,7 @@ export const CartItem: React.FC<CartItemProps> = ({
       <article className="flex items-center gap-4">
         <img
           className="w-[6rem] xl:w-[8rem] rounded-md aspect-square object-cover"
-          src={item.image}
+          src={item.image_url}
           alt={`${item.name} - ${item.description}`}
         />
         <div className="flex-1 flex items-center flex-wrap gap-4">
@@ -106,21 +105,23 @@ export const CartItem: React.FC<CartItemProps> = ({
                 </p>
               </div>
             </div>
-            {item.onPromotion && item.originalPrice ? (
-              <div className="flex flex-col text-right">
+            {item.promotions ? (
+              <div className="ml-auto flex flex-col text-right">
                 <span className="text-neutral-700 text-sm line-through">
                   <span className="sr-only">Original price: </span>$
-                  {(item.originalPrice * item.quantity).toFixed(2)}
+                  {(item.quantity * item.price).toFixed(2)}
                 </span>
-                <span className="ml-1 text-lg font-bold leading-none sm:text-xl ">
+                <span className="ml-1 text-lg font-bold leading-none sm:text-xl0">
                   <span className="sr-only">Discounted price: </span>$
-                  {(item.currentPrice * item.quantity).toFixed(2)}
+                  {(
+                    item.quantity *
+                    (item.price - item.promotions.discount_value)
+                  ).toFixed(2)}
                 </span>
               </div>
             ) : (
               <span className="ml-auto text-lg font-bold sm:text-xl">
-                <span className="sr-only">Price: </span>$
-                {(item.currentPrice * item.quantity).toFixed(2)}
+                <span className="sr-only">Price: </span>${item.price.toFixed(2)}
               </span>
             )}
           </div>

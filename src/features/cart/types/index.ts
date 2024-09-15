@@ -1,11 +1,6 @@
-export interface CartItem {
-  id: number;
-  name: string;
-  description: string;
-  image: string;
-  onPromotion: boolean;
-  originalPrice?: number;
-  currentPrice: number;
+import { MenuItem } from "@/types/api";
+
+export interface CartItem extends MenuItem {
   quantity: number;
 }
 

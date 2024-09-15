@@ -6,10 +6,9 @@ import {
   RadioGroupInput,
   RadioGroupLabel,
 } from "@/components/ui/radio-group";
-
 import { Container } from "@/components/ui/container";
 import { useSticky } from "@/hooks/useSticky";
-import { Category } from "../types";
+import { Category } from "@/types/api";
 
 interface MenuCategoriesProps {
   categories: Category[];
@@ -20,9 +19,8 @@ export const MenuCategories: React.FC<MenuCategoriesProps> = ({
 }) => {
   const [searchParams, setSearchParams] = useSearchParams();
   const [ref, sticky] = useSticky<HTMLDivElement>(64);
-  console.log(sticky, ref);
 
-  const defaultCategory = searchParams.get("category") || undefined;
+  const defaultCategory = searchParams.get("category") || "all";
 
   return (
     <div
@@ -37,15 +35,23 @@ export const MenuCategories: React.FC<MenuCategoriesProps> = ({
       <Container variant="narrow">
         <RadioGroup defaultValue={defaultCategory}>
           <RadioGroupLabel>Select category</RadioGroupLabel>
+
           {categories.map((category) => (
             <RadioGroupInput
-              key={category.value}
+              key={category.slug}
               onChange={(value) => setSearchParams({ category: value })}
-              value={category.value}
+              value={category.slug}
             >
-              {category.label}
+              {category.name}
             </RadioGroupInput>
           ))}
+          <RadioGroupInput
+            key="promotions"
+            onChange={(value) => setSearchParams({ category: value })}
+            value="promotions"
+          >
+            Promotions
+          </RadioGroupInput>
         </RadioGroup>
       </Container>
     </div>

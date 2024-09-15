@@ -16,16 +16,16 @@ export const CreateOrderView: React.FC = () => {
   const navigate = useNavigate();
 
   const totalPrice = items.reduce(
-    (acc, item, _) => (acc += item.currentPrice * item.quantity),
+    (acc, item, _) => (acc += item.price * item.quantity),
     0
   );
   const savings = items.reduce((acc, item, _) => {
-    if (item.originalPrice) {
-      acc += (item.originalPrice - item.currentPrice) * item.quantity;
+    if (item.promotions) {
+      acc += item.promotions.discount_value * item.quantity;
     }
     return acc;
   }, 0);
-  const totalPriceWithSavings = totalPrice + savings;
+  const totalPriceWithSavings = totalPrice - savings;
 
   const handleSubmit = (data: OrderFormValues) => {
     const state: Order = { ...data, items, totalPrice };
@@ -70,11 +70,11 @@ export const CreateOrderView: React.FC = () => {
               <div className="ml-auto">
                 {totalPriceWithSavings !== totalPrice && (
                   <span className="line-through text-neutral-700">
-                    ${totalPriceWithSavings.toFixed(2)}
+                    ${totalPrice.toFixed(2)}
                   </span>
                 )}
                 <span className="ml-2 font-bold text-lg">
-                  ${totalPrice.toFixed(2)}
+                  ${totalPriceWithSavings.toFixed(2)}
                 </span>
               </div>
             </p>

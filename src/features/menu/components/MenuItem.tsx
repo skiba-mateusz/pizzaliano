@@ -1,11 +1,11 @@
 import React from "react";
+import toast from "react-hot-toast";
 import { ShoppingCartIcon } from "@heroicons/react/24/outline";
 import { Heading } from "@/components/ui/heading";
 import { Button } from "@/components/ui/button";
-import { MenuItem as MenuItemType } from "../types";
+import { MenuItem as MenuItemType } from "@/types/api";
 import { useCart } from "@/features/cart/contexts/CartContext";
 import { CartActionTypes } from "@/features/cart/types";
-import toast from "react-hot-toast";
 
 export const MenuItem: React.FC<{ item: MenuItemType }> = ({ item }) => {
   const { dispatch } = useCart();
@@ -23,7 +23,7 @@ export const MenuItem: React.FC<{ item: MenuItemType }> = ({ item }) => {
       <article className="h-full flex flex-col border-b border-neutral-200 hover:shadow-md">
         <img
           className="rounded-md aspect-square object-cover"
-          src={item.image}
+          src={item.image_url}
           alt={`${item.name} - ${item.description}`}
           loading="lazy"
         />
@@ -45,21 +45,20 @@ export const MenuItem: React.FC<{ item: MenuItemType }> = ({ item }) => {
               <ShoppingCartIcon className="size-6" />
               <span className="sr-only">Add To Cart</span>
             </Button>
-            {item.onPromotion ? (
+            {item.promotions ? (
               <div className="ml-auto flex flex-col text-right">
                 <span className="text-neutral-700 text-sm line-through">
                   <span className="sr-only">Original price: </span>$
-                  {item.originalPrice?.toFixed(2)}
+                  {item.price.toFixed(2)}
                 </span>
                 <span className="ml-1 text-lg font-bold leading-none sm:text-xl0">
                   <span className="sr-only">Discounted price: </span>$
-                  {item.currentPrice.toFixed(2)}
+                  {(item.price - item.promotions.discount_value).toFixed(2)}
                 </span>
               </div>
             ) : (
               <span className="ml-auto text-lg font-bold sm:text-xl">
-                <span className="sr-only">Price: </span>$
-                {item.currentPrice.toFixed(2)}
+                <span className="sr-only">Price: </span>${item.price.toFixed(2)}
               </span>
             )}
           </div>
