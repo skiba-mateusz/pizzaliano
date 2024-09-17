@@ -64,7 +64,22 @@ const getMenuItems = async ({
   return { categorizedMenuItems, count: count ?? 0 };
 };
 
-export const useMenuItems = (params: GetMenuItemsParams) => {
+const buildParams = (
+  initialParams: GetMenuItemsParams,
+  categorySlugParam: string
+) => {
+  const params: GetMenuItemsParams = { ...initialParams };
+
+  params.categorySlug = categorySlugParam;
+  if (categorySlugParam === "promotions") {
+    params.promotions = true;
+    params.categorySlug = "";
+  }
+
+  return params;
+};
+
+export const useMenuItems = (initialParams: GetMenuItemsParams) => {
   const [data, setData] = useState<GetMenuItemsResponse>({
     categorizedMenuItems: {},
     count: 0,
@@ -73,16 +88,8 @@ export const useMenuItems = (params: GetMenuItemsParams) => {
   const [isLoading, setIsLoading] = useState(false);
   const [searchParams] = useSearchParams();
 
-  const categorySlugParam = searchParams.get("category");
-  if (categorySlugParam) {
-    if (categorySlugParam !== "all" && categorySlugParam !== "promotions") {
-      params.categorySlug = categorySlugParam;
-    }
-
-    if (categorySlugParam === "promotions") {
-      params.promotions = true;
-    }
-  }
+  const categorySlugParam = searchParams.get("category") || "";
+  const params = buildParams(initialParams, categorySlugParam);
 
   useEffect(() => {
     const fetchMenuItems = async () => {
@@ -100,7 +107,7 @@ export const useMenuItems = (params: GetMenuItemsParams) => {
     };
 
     fetchMenuItems();
-  }, [categorySlugParam]);
+  }, [searchParams]);
 
   return { data, isLoading, error };
 };

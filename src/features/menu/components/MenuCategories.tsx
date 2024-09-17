@@ -20,7 +20,7 @@ export const MenuCategories: React.FC<MenuCategoriesProps> = ({
   const [searchParams, setSearchParams] = useSearchParams();
   const [ref, sticky] = useSticky<HTMLDivElement>(64);
 
-  const defaultCategory = searchParams.get("category") || "all";
+  const defaultCategory = searchParams.get("category") || "";
 
   return (
     <div

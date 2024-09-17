@@ -20,15 +20,15 @@ export const MenuView: React.FC = () => {
   const [searchParams] = useSearchParams();
   const ref = useRef<HTMLDivElement | null>(null);
 
-  useEffect(() => {
-    if (!ref.current) return;
-
-    ref.current.classList.remove("translate-y-16");
-    ref.current.classList.remove("opacity-0");
-  }, [ref.current]);
-
   const categorySlugParam = searchParams.get("category");
   const isLoading = isLoadingMenuItems || isLoadingCategories;
+
+  useEffect(() => {
+    if (!isLoading && ref.current) {
+      ref.current.classList.remove("translate-y-16");
+      ref.current.classList.remove("opacity-0");
+    }
+  }, [isLoading]);
 
   return !isLoading ? (
     <>
