@@ -8,7 +8,7 @@ export const DrawerHeader: React.FC<DrawerComponentProps> = ({
   className,
   children,
 }) => {
-  const { onClose } = useDrawer();
+  const { onClose, closeBtnRef } = useDrawer();
 
   return (
     <header
@@ -23,6 +23,7 @@ export const DrawerHeader: React.FC<DrawerComponentProps> = ({
         size="small"
         iconOnly={true}
         onClick={() => onClose()}
+        ref={closeBtnRef}
       >
         <XMarkIcon className="size-6" />
         <span className="sr-only">Close modal</span>

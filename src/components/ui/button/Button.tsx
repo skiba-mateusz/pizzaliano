@@ -1,5 +1,5 @@
 import classNames from "classnames";
-import React from "react";
+import React, { forwardRef } from "react";
 import { Link, LinkProps } from "react-router-dom";
 
 const variants = {
@@ -28,41 +28,46 @@ type LinkButtonProps = Omit<ButtonProps, "onClick" | "type" | "disabled"> &
   LinkProps;
 type NativeButtonProps = Omit<ButtonProps, "to">;
 
-export const Button: React.FC<ButtonProps> = ({
-  variant = "filled",
-  size = "medium",
-  iconOnly = false,
-  to = "",
-  className,
-  children,
-  ...restProps
-}) => {
-  const classes = classNames(
-    "flex items-center justify-center gap-2 font-semibold rounded-md outline-none transition-color duration-200 ring-offset-1 disabled:cursor-not-allowed",
-    variants[variant],
-    sizes[size],
-    className,
+export const Button = forwardRef<HTMLButtonElement | null, ButtonProps>(
+  (
     {
-      "aspect-square p-[.6em]": iconOnly,
+      variant = "filled",
+      size = "medium",
+      iconOnly = false,
+      to = "",
+      className,
+      children,
+      ...restProps
     },
-    {
-      "p-[.6em_1.2em]": !iconOnly,
-    }
-  );
+    ref
+  ) => {
+    const classes = classNames(
+      "flex items-center justify-center gap-2 font-semibold rounded-md outline-none transition-color duration-200 ring-offset-1 disabled:cursor-not-allowed",
+      variants[variant],
+      sizes[size],
+      className,
+      {
+        "aspect-square p-[.6em]": iconOnly,
+      },
+      {
+        "p-[.6em_1.2em]": !iconOnly,
+      }
+    );
 
-  if (to) {
-    const linkProps = restProps as LinkButtonProps;
+    if (to) {
+      const linkProps = restProps as LinkButtonProps;
+      return (
+        <Link className={classes} {...linkProps} to={to}>
+          {children}
+        </Link>
+      );
+    }
+
+    const buttonProps = restProps as NativeButtonProps;
     return (
-      <Link className={classes} {...linkProps} to={to}>
+      <button className={classes} {...buttonProps} ref={ref}>
         {children}
-      </Link>
+      </button>
     );
   }
-
-  const buttonProps = restProps as NativeButtonProps;
-  return (
-    <button className={classes} {...buttonProps}>
-      {children}
-    </button>
-  );
-};
+);

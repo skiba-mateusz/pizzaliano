@@ -1,4 +1,4 @@
-import React, { useId, useRef } from "react";
+import React, { useEffect, useId, useRef } from "react";
 import { createPortal } from "react-dom";
 import { CSSTransition } from "react-transition-group";
 import classNames from "classnames";
@@ -24,9 +24,33 @@ export const Drawer: React.FC<DrawerProps> = ({
 }) => {
   const titleID = useId();
   const ref = useRef<HTMLDivElement | null>(null);
+  const closeBtnRef = useRef<HTMLButtonElement | null>(null);
+
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        onClose();
+      }
+    };
+
+    if (open) {
+      document.addEventListener("keydown", handleKeyDown);
+      closeBtnRef?.current?.focus();
+    } else {
+      document.removeEventListener("keydown", handleKeyDown);
+    }
+
+    () => {
+      document.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [open, onClose]);
 
   return createPortal(
-    <DrawerProvider onClose={onClose} titleID={titleID}>
+    <DrawerProvider
+      onClose={onClose}
+      titleID={titleID}
+      closeBtnRef={closeBtnRef}
+    >
       <CSSTransition
         nodeRef={ref}
         in={open}
@@ -51,6 +75,12 @@ export const Drawer: React.FC<DrawerProps> = ({
           {children}
         </div>
       </CSSTransition>
+      {open && (
+        <div
+          className="fixed inset-0 bg-neutral-900 opacity-25 z-10"
+          onClick={onClose}
+        ></div>
+      )}
     </DrawerProvider>,
     document.body
   );
