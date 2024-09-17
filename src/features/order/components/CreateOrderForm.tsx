@@ -3,26 +3,25 @@ import { FormProvider, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { OrderFormSchema } from "../validation/orderValidationSchema";
-import { OrderFormValues } from "../types";
+import {
+  CreaterOrderInputValues,
+  createOrderInputSchema,
+} from "../api/createOrder";
 
 interface CreateOrderFormProps {
-  onSubmit: (data: OrderFormValues) => void;
+  onSubmit: (data: CreaterOrderInputValues) => Promise<void>;
+  defaultValues: CreaterOrderInputValues;
+  isLoading: boolean;
 }
 
 export const CreateOrderForm: React.FC<CreateOrderFormProps> = ({
   onSubmit,
+  defaultValues,
+  isLoading,
 }) => {
-  const methods = useForm<OrderFormValues>({
-    resolver: yupResolver(OrderFormSchema),
-    defaultValues: {
-      fullName: "",
-      emailAddress: "",
-      phoneNumber: "",
-      streetAddress: "",
-      city: "",
-      postalCode: "",
-    },
+  const methods = useForm<CreaterOrderInputValues>({
+    resolver: yupResolver(createOrderInputSchema),
+    defaultValues,
   });
 
   return (
@@ -32,17 +31,17 @@ export const CreateOrderForm: React.FC<CreateOrderFormProps> = ({
         onSubmit={methods.handleSubmit(onSubmit)}
         noValidate
       >
-        <Input label="Full Name" name="fullName" />
+        <Input label="Full Name" name="full_name" />
         <div className="grid grid-flow-row gap-4 sm:grid-flow-col md:gap-6">
-          <Input label="Email Address" name="emailAddress" type="email" />
-          <Input label="Phone Number" name="phoneNumber" mask="999-999-999" />
+          <Input label="Email Address" name="email_address" type="email" />
+          <Input label="Phone Number" name="phone_number" mask="999-999-999" />
         </div>
         <div className="grid grid-flow-row gap-4 sm:grid-flow-col md:gap-6">
-          <Input label="Street address" name="streetAddress" />
+          <Input label="Street address" name="street_address" />
           <Input label="City" name="city" />
-          <Input label="Postal Code" name="postalCode" mask="99-999" />
+          <Input label="Postal Code" name="postal_code" mask="99-999" />
         </div>
-        <Button>Place Order</Button>
+        <Button disabled={isLoading}>Place Order</Button>
       </form>
     </FormProvider>
   );

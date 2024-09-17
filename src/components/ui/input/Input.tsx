@@ -21,6 +21,7 @@ export const Input: React.FC<InputProps> = ({
     register,
     formState: { errors },
     getValues,
+    setValue,
   } = useFormContext();
   const { ref, ...rest } = register(name, {
     onBlur: () => {
@@ -77,6 +78,7 @@ export const Input: React.FC<InputProps> = ({
               ref(e);
               inputRef.current = e;
             }}
+            defaultValue={getValues(name)}
             onFocus={handleFocus}
           />
         ) : (

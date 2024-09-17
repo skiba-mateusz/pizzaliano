@@ -47,7 +47,7 @@ export const CartView: React.FC = () => {
               </p>
             </div>
             <nav className="mt-auto grid gap-2" aria-label="Cart actions">
-              <Button to="/order">Place Order</Button>
+              <Button to="/order/create">Place Order</Button>
               <Button to="/menu" variant="outlined">
                 Continue Shopping
               </Button>

@@ -8,6 +8,7 @@ export enum CartActionTypes {
   ADD_CART_ITEM = "ADD_CART_ITEM",
   REMOVE_CART_ITEM = "REMOVE_CART_ITEM",
   UPDATE_CART_ITEM_QUANTITY = "UPDATE_CART_ITEM_QUANTITY",
+  CLEAR_CART = "CLEAR_CART",
 }
 
 interface AddCartItemAction {
@@ -25,7 +26,12 @@ interface RemoveCartItemAction {
   payload: number;
 }
 
+interface ClearCart {
+  type: CartActionTypes.CLEAR_CART;
+}
+
 export type CartActions =
   | AddCartItemAction
   | RemoveCartItemAction
-  | UpdateCartItemQuantity;
+  | UpdateCartItemQuantity
+  | ClearCart;

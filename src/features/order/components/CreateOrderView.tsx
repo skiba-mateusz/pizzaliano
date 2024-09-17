@@ -1,4 +1,6 @@
 import React from "react";
+import toast from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
 import { Container } from "@/components/ui/container";
 import { Heading } from "@/components/ui/heading";
 import { Link } from "@/components/ui/link";
@@ -6,14 +8,30 @@ import { Message } from "@/components/ui/message";
 import { CartList } from "@/features/cart/components/CartList";
 import { useCart } from "@/features/cart/contexts/CartContext";
 import { CreateOrderForm } from "./CreateOrderForm";
-import { Order, OrderFormValues } from "../types";
-import { useNavigate } from "react-router-dom";
+import { CreaterOrderInputValues, useCreateOrder } from "../api/createOrder";
+import { OrderItem } from "@/types/api";
+import { CartActionTypes } from "@/features/cart/types";
+import { useLocalStorage } from "@/hooks/useLocalStorage";
+import { isObjectDifferent } from "@/utils";
 
 export const CreateOrderView: React.FC = () => {
   const {
     state: { items, numItems },
+    dispatch,
   } = useCart();
+  const { createOrder, isLoading } = useCreateOrder();
   const navigate = useNavigate();
+  const [userInfo, setUserInfo] = useLocalStorage<CreaterOrderInputValues>(
+    "userInfo",
+    {
+      full_name: "",
+      email_address: "",
+      phone_number: "",
+      street_address: "",
+      city: "",
+      postal_code: "",
+    }
+  );
 
   const totalPrice = items.reduce(
     (acc, item, _) => (acc += item.price * item.quantity),
@@ -27,9 +45,44 @@ export const CreateOrderView: React.FC = () => {
   }, 0);
   const totalPriceWithSavings = totalPrice - savings;
 
-  const handleSubmit = (data: OrderFormValues) => {
-    const state: Order = { ...data, items, totalPrice };
-    navigate("/", { state });
+  const handleSubmit = async (data: CreaterOrderInputValues) => {
+    toast
+      .promise(
+        createOrder({
+          total_price: totalPrice,
+          delivery_info: {
+            street_address: data.street_address,
+            city: data.city,
+            postal_code: data.postal_code,
+          },
+          user_info: {
+            full_name: data.full_name,
+            email_address: data.email_address,
+            phone_number: data.phone_number,
+          },
+          items: items.map(
+            ({ id, quantity, price }): OrderItem => ({
+              order_id: 0,
+              item_id: id,
+              quantity,
+              price_per_item: price,
+            })
+          ),
+        }),
+        {
+          loading: "Placing order...",
+          success: "Order placed successfully",
+          error: "There was an error trying to place your order :(",
+        }
+      )
+      .then((orderId) => {
+        navigate(`/orders/${orderId}`);
+        dispatch({ type: CartActionTypes.CLEAR_CART });
+        if (isObjectDifferent(userInfo, data)) {
+          setUserInfo(data);
+        }
+      })
+      .catch((err) => console.error(err));
   };
 
   return (
@@ -42,7 +95,11 @@ export const CreateOrderView: React.FC = () => {
               Delivery infomration
             </Heading>
             {numItems > 0 ? (
-              <CreateOrderForm onSubmit={handleSubmit} />
+              <CreateOrderForm
+                onSubmit={handleSubmit}
+                defaultValues={userInfo}
+                isLoading={isLoading}
+              />
             ) : (
               <Message variant="info">
                 If you want to place an order, you need to fill your cart{" "}

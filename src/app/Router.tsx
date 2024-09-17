@@ -28,9 +28,11 @@ const router = createBrowserRouter([
         },
       },
       {
-        path: "/order",
+        path: "/order/create",
         lazy: async () => {
-          const { CreateOrderRoute } = await import("./routes/CreateOrder");
+          const { CreateOrderRoute } = await import(
+            "./routes/orders/CreateOrder"
+          );
           return { Component: CreateOrderRoute };
         },
       },

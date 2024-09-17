@@ -99,17 +99,12 @@ const CartDrawer: React.FC<CartDrawerProps> = ({
       <DrawerContent>
         <CartList items={items} />
       </DrawerContent>
-      <DrawerFooter>
+      <DrawerFooter className="grid">
         <Button to="/cart" onClick={onClose}>
           Cart
         </Button>
-        <Button
-          className="mt-4"
-          to="/order"
-          onClick={onClose}
-          variant="outlined"
-        >
-          Order
+        <Button className="mt-4" onClick={onClose} variant="outlined">
+          Close
         </Button>
       </DrawerFooter>
     </Drawer>

@@ -13,7 +13,7 @@ export const Hero: React.FC = () => {
           </h1>
           <div className="mx-auto flex gap-4">
             <Button to="/menu">See Menu</Button>
-            <Button to="/order" variant="outlined">
+            <Button to="/order/create" variant="outlined">
               Order Now
             </Button>
           </div>

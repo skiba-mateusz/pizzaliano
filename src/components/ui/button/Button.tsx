@@ -38,7 +38,7 @@ export const Button: React.FC<ButtonProps> = ({
   ...restProps
 }) => {
   const classes = classNames(
-    "flex items-center justify-center gap-2 font-semibold rounded-md outline-none transition-color duration-200 ring-offset-1",
+    "flex items-center justify-center gap-2 font-semibold rounded-md outline-none transition-color duration-200 ring-offset-1 disabled:cursor-not-allowed",
     variants[variant],
     sizes[size],
     className,
