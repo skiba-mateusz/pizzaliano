@@ -5,7 +5,7 @@ import { Heading } from "@/components/ui/heading";
 import { Button } from "@/components/ui/button";
 import { MenuItem as MenuItemType } from "@/types/api";
 import { useCart } from "@/features/cart/contexts/CartContext";
-import { CartActionTypes } from "@/features/cart/types";
+import { CartActionTypes } from "@/features/cart/contexts/CartContext";
 
 export const MenuItem: React.FC<{ item: MenuItemType }> = ({ item }) => {
   const { dispatch } = useCart();
@@ -20,10 +20,10 @@ export const MenuItem: React.FC<{ item: MenuItemType }> = ({ item }) => {
 
   return (
     <li>
-      <article className="h-full flex flex-col border-b border-neutral-200 hover:shadow-md">
+      <article className="h-full flex flex-col border-b border-neutral-200 hover:shadow-md hover:rounded-md">
         <img
           className="rounded-md aspect-square object-cover"
-          src={item.image_url}
+          src={item.imageUrl}
           alt={`${item.name} - ${item.description}`}
           loading="lazy"
         />
@@ -45,7 +45,7 @@ export const MenuItem: React.FC<{ item: MenuItemType }> = ({ item }) => {
               <ShoppingCartIcon className="size-6" />
               <span className="sr-only">Add To Cart</span>
             </Button>
-            {item.promotions ? (
+            {item.promotion ? (
               <div className="ml-auto flex flex-col text-right">
                 <span className="text-neutral-700 text-sm line-through">
                   <span className="sr-only">Original price: </span>$
@@ -53,7 +53,7 @@ export const MenuItem: React.FC<{ item: MenuItemType }> = ({ item }) => {
                 </span>
                 <span className="ml-1 text-lg font-bold leading-none sm:text-xl0">
                   <span className="sr-only">Discounted price: </span>$
-                  {(item.price - item.promotions.discount_value).toFixed(2)}
+                  {(item.price - item.promotion.discountValue).toFixed(2)}
                 </span>
               </div>
             ) : (

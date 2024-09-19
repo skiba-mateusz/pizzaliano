@@ -2,13 +2,13 @@ export interface Category {
   id: number;
   name: string;
   slug: string;
-  created_at: string;
+  createdAt: string;
 }
 
 export interface Promotion {
   id: number;
   name: string;
-  discount_value: number;
+  discountValue: number;
   isActive: boolean;
   createdAt: string;
 }
@@ -18,51 +18,50 @@ export interface MenuItem {
   name: string;
   description: string;
   price: number;
-  image_url: string;
-  is_available: boolean;
-  category_id: number;
-  categories: Category;
-  promotion_id?: number;
-  promotions?: Promotion;
+  imageUrl: string;
+  isAvailable: boolean;
+  categoryID: number;
+  category: Category;
+  promotionID?: number;
+  promotion?: Promotion;
   createdAt: string;
 }
 
 export interface DeliveryInfo {
-  street_address: string;
+  streetAddress: string;
   city: string;
-  postal_code: string;
+  postalCode: string;
 }
 
 export interface UserInfo {
-  full_name: string;
-  email_address: string;
-  phone_number: string;
+  fullName: string;
+  emailAddress: string;
+  phoneNumber: string;
 }
 
 export interface OrderItem {
-  order_id: number;
-  item_id: number;
+  orderID: number;
+  menuItemID: number;
+  menuItem: MenuItem;
   quantity: number;
-  price_per_item: number;
 }
 
 export interface Order {
   id: number;
-  total_price: number;
+  totalPrice: number;
   status: string;
-  delivery_info: DeliveryInfo;
-  user_info: UserInfo;
+  deliveryInfo: DeliveryInfo;
+  userInfo: UserInfo;
   items: MenuItem[];
-  created_at: string;
+  createdAt: string;
 }
-
-export type CategorizedMenuItems = Record<string, MenuItem[]>;
 
 export interface GetMenuItemsParams {
   categorySlug?: string;
   promotions?: boolean;
-  isActive: boolean;
 }
+
+export type CategorizedMenuItems = Record<string, MenuItem[]>;
 
 export interface GetMenuItemsResponse {
   categorizedMenuItems: CategorizedMenuItems;

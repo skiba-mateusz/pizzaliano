@@ -4,29 +4,21 @@ import { Heading } from "@/components/ui/heading";
 import { useCart } from "../contexts/CartContext";
 import { Button } from "@/components/ui/button";
 import { CartList } from "./CartList";
+import { calculateCartTotals } from "../utils";
 
 export const CartView: React.FC = () => {
   const {
     state: { items, numItems },
   } = useCart();
 
-  const totalPrice = items
-    .reduce(
-      (acc, item, _) =>
-        (acc +=
-          (item.promotions
-            ? item.price - item.promotions.discount_value
-            : item.price) * item.quantity),
-      0
-    )
-    .toFixed(2);
+  const { totalPriceAfterSavings } = calculateCartTotals(items);
 
   return (
     <section className="py-8">
       <Container>
         <Heading level="h1">Shopping Cart</Heading>
         <div className="mt-4 grid items-start gap-4 md:grid-cols-[2fr_1fr] md:gap-8">
-          <section className="p-4 flex-1 rounded-md shadow-md">
+          <section className="p-4 flex-1 rounded-md shadow-md ">
             <Heading level="h2" variant="plain" className="mb-4">
               Cart items
             </Heading>
@@ -43,7 +35,9 @@ export const CartView: React.FC = () => {
               </p>
               <p className="flex">
                 Total price:{" "}
-                <span className="ml-auto font-bold text-lg">${totalPrice}</span>
+                <span className="ml-auto font-bold text-lg">
+                  ${totalPriceAfterSavings.toFixed(2)}
+                </span>
               </p>
             </div>
             <nav className="mt-auto grid gap-2" aria-label="Cart actions">

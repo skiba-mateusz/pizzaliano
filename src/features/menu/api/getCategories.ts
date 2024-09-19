@@ -6,11 +6,12 @@ const getCategories = async () => {
   const { data: categories, error } = await supabase
     .from("categories")
     .select("*")
-    .order("created_at", { ascending: true })
+    .order("createdAt", { ascending: true })
     .returns<Category[]>();
 
   if (error) {
-    throw new Error(`Error fetching categories data: ${error.message}`);
+    console.error(error);
+    throw new Error("Could not load categories");
   }
 
   return categories || [];
@@ -24,6 +25,7 @@ export const useCategories = () => {
   useEffect(() => {
     const fetchCategories = async () => {
       try {
+        setError("");
         setIsLoading(true);
         const response = await getCategories();
         setData(response);

@@ -36,10 +36,10 @@ export const RadioGroupInput: React.FC<RadioGroupInputProps> = ({
       />
       <label
         className={classNames(
-          "p-[.6em_1.2em] block text-center border border-rose-500 rounded-md cursor-pointer outline-none ring-offset-1 ring-rose-300 transition-all peer-focus:ring",
+          "p-[.6em_1.2em] block text-center font-bold border border-rose-500 rounded-md cursor-pointer outline-none ring-offset-1 ring-rose-300 transition-all peer-focus:ring",
           {
             "bg-rose-500 text-neutral-50": value === selectedValue,
-            "hover:bg-rose-50": value !== selectedValue,
+            "text-rose-500 hover:bg-rose-50": value !== selectedValue,
           }
         )}
         htmlFor={id}

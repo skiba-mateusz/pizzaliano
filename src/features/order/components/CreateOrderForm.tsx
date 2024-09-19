@@ -4,13 +4,13 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import {
-  CreaterOrderInputValues,
-  createOrderInputSchema,
+  CreateOrderFormValues,
+  createOrderFormSchema,
 } from "../api/createOrder";
 
 interface CreateOrderFormProps {
-  onSubmit: (data: CreaterOrderInputValues) => Promise<void>;
-  defaultValues: CreaterOrderInputValues;
+  onSubmit: (data: CreateOrderFormValues) => Promise<void>;
+  defaultValues: CreateOrderFormValues;
   isLoading: boolean;
 }
 
@@ -19,27 +19,27 @@ export const CreateOrderForm: React.FC<CreateOrderFormProps> = ({
   defaultValues,
   isLoading,
 }) => {
-  const methods = useForm<CreaterOrderInputValues>({
-    resolver: yupResolver(createOrderInputSchema),
+  const methods = useForm<CreateOrderFormValues>({
+    resolver: yupResolver(createOrderFormSchema),
     defaultValues,
   });
 
   return (
     <FormProvider {...methods}>
       <form
-        className="grid gap-4 md:gap-6"
+        className="grid gap-6"
         onSubmit={methods.handleSubmit(onSubmit)}
         noValidate
       >
-        <Input label="Full Name" name="full_name" />
-        <div className="grid grid-flow-row gap-4 sm:grid-flow-col md:gap-6">
-          <Input label="Email Address" name="email_address" type="email" />
-          <Input label="Phone Number" name="phone_number" mask="999-999-999" />
+        <Input label="Full Name" name="fullName" />
+        <div className="grid grid-flow-row gap-6 sm:grid-flow-col">
+          <Input label="Email Address" name="emailAddress" type="email" />
+          <Input label="Phone Number" name="phoneNumber" mask="999-999-999" />
         </div>
         <div className="grid grid-flow-row gap-4 sm:grid-flow-col md:gap-6">
-          <Input label="Street address" name="street_address" />
+          <Input label="Street address" name="streetAddress" />
           <Input label="City" name="city" />
-          <Input label="Postal Code" name="postal_code" mask="99-999" />
+          <Input label="Postal Code" name="postalCode" mask="99-999" />
         </div>
         <Button disabled={isLoading}>Place Order</Button>
       </form>

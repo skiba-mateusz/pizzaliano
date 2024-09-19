@@ -36,7 +36,7 @@ const NavItem: React.FC<NavItemProps> = ({ label, to, onNavLinkClick }) => {
       <NavLink
         to={to}
         onClick={onNavLinkClick}
-        className="relative aria-[current]:text-rose-500"
+        className="font-bold text-neutral-700 aria-[current]:text-rose-500"
       >
         {label}
       </NavLink>
@@ -71,6 +71,7 @@ const Nav: React.FC<NavProps> = ({ isMobile = false, onNavLinkClick }) => {
             label={navLink.label}
             to={navLink.to}
             onNavLinkClick={onNavLinkClick}
+            key={navLink.label}
           />
         ))}
       </ul>
@@ -136,8 +137,6 @@ export const Header: React.FC = () => {
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [isNavOpen, setIsNavOpen] = useState(false);
   const [ref, sticky] = useSticky();
-
-  console.log(items);
 
   return (
     <header

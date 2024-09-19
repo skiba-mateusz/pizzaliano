@@ -21,7 +21,6 @@ export const Input: React.FC<InputProps> = ({
     register,
     formState: { errors },
     getValues,
-    setValue,
   } = useFormContext();
   const { ref, ...rest } = register(name, {
     onBlur: () => {
@@ -37,29 +36,34 @@ export const Input: React.FC<InputProps> = ({
   const isError = Boolean(errors[name]);
 
   useEffect(() => {
+    if (!spanRef.current || !inputRef.current) return;
+
     const value = getValues(name);
-    if (value && spanRef.current) {
-      spanRef.current?.classList.add("top-0");
+
+    if (value) {
+      spanRef.current.classList.add("top-0");
     } else {
-      if (document.activeElement !== inputRef?.current)
-        spanRef.current?.classList.add("top-1/2");
+      if (document.activeElement !== inputRef.current) {
+        spanRef.current.classList.add("top-1/2");
+      }
     }
-  }, [getValues, name, isError]);
+  }, [getValues, name]);
 
   const props = {
     className: classNames(
       className,
-      "w-full px-4 py-2 self-top rounded-md outline-none ring-2 transition-all duration-200 ",
+      "w-full px-4 py-2 bg-transparent self-top rounded-md outline-none ring-2 transition-all duration-200 ",
       {
         "ring-rose-500": isError,
         "ring-neutral-300": !isError,
       }
     ),
     type,
-    ...rest,
-    ...restProps,
     label,
     "aria-invalid": isError,
+    onFocus: () => handleFocus(),
+    ...rest,
+    ...restProps,
   };
 
   const handleFocus = () => {
@@ -79,7 +83,6 @@ export const Input: React.FC<InputProps> = ({
               inputRef.current = e;
             }}
             defaultValue={getValues(name)}
-            onFocus={handleFocus}
           />
         ) : (
           <input
@@ -88,7 +91,6 @@ export const Input: React.FC<InputProps> = ({
               ref(e);
               inputRef.current = e;
             }}
-            onFocus={handleFocus}
           />
         )}
         <span

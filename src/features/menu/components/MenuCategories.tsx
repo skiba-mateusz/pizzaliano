@@ -35,7 +35,6 @@ export const MenuCategories: React.FC<MenuCategoriesProps> = ({
       <Container variant="narrow">
         <RadioGroup defaultValue={defaultCategory}>
           <RadioGroupLabel>Select category</RadioGroupLabel>
-
           {categories.map((category) => (
             <RadioGroupInput
               key={category.slug}
@@ -45,13 +44,6 @@ export const MenuCategories: React.FC<MenuCategoriesProps> = ({
               {category.name}
             </RadioGroupInput>
           ))}
-          <RadioGroupInput
-            key="promotions"
-            onChange={(value) => setSearchParams({ category: value })}
-            value="promotions"
-          >
-            Promotions
-          </RadioGroupInput>
         </RadioGroup>
       </Container>
     </div>

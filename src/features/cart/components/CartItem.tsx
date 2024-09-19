@@ -3,7 +3,10 @@ import { Button } from "@/components/ui/button";
 import { Heading } from "@/components/ui/heading";
 import { useCart } from "../contexts/CartContext";
 import { MinusIcon, PlusIcon, TrashIcon } from "@heroicons/react/24/outline";
-import { CartActionTypes, CartItem as CartItemType } from "../types";
+import {
+  CartActionTypes,
+  CartItem as CartItemType,
+} from "../contexts/CartContext";
 
 interface QuantityControlsProps {
   quantity: number;
@@ -90,7 +93,7 @@ export const CartItem: React.FC<CartItemProps> = ({
       <article className="flex items-center gap-4">
         <img
           className="w-[6rem] xl:w-[8rem] rounded-md aspect-square object-cover"
-          src={item.image_url}
+          src={item.imageUrl}
           alt={`${item.name} - ${item.description}`}
         />
         <div className="flex-1 flex items-center flex-wrap gap-4">
@@ -105,7 +108,7 @@ export const CartItem: React.FC<CartItemProps> = ({
                 </p>
               </div>
             </div>
-            {item.promotions ? (
+            {item.promotion ? (
               <div className="ml-auto flex flex-col text-right">
                 <span className="text-neutral-700 text-sm line-through">
                   <span className="sr-only">Original price: </span>$
@@ -115,13 +118,14 @@ export const CartItem: React.FC<CartItemProps> = ({
                   <span className="sr-only">Discounted price: </span>$
                   {(
                     item.quantity *
-                    (item.price - item.promotions.discount_value)
+                    (item.price - item.promotion.discountValue)
                   ).toFixed(2)}
                 </span>
               </div>
             ) : (
               <span className="ml-auto text-lg font-bold sm:text-xl">
-                <span className="sr-only">Price: </span>${item.price.toFixed(2)}
+                <span className="sr-only">Price: </span>$
+                {(item.quantity * item.price).toFixed(2)}
               </span>
             )}
           </div>

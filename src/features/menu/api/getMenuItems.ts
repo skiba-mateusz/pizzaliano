@@ -16,8 +16,8 @@ const getMenuItems = async ({
   let query = supabase.from("menu_items").select(
     `
       *,
-      categories (*),
-      promotions (*)
+      category:categories (*),
+      promotion:promotions (*)
       `,
     { count: "exact" }
   );
@@ -30,14 +30,15 @@ const getMenuItems = async ({
       .single<Category>();
 
     if (categoryError) {
-      throw new Error(categoryError.message);
+      console.error(categoryError);
+      throw new Error("Could not load menu");
     }
 
-    query = query.eq("category_id", category?.id);
+    query = query.eq("categoryID", category?.id);
   }
 
   if (promotions) {
-    query = query.not("promotion_id", "is", null);
+    query = query.not("promotionID", "is", null);
   }
 
   const {
@@ -45,13 +46,15 @@ const getMenuItems = async ({
     error: menuItemsError,
     count,
   } = await query.returns<MenuItem[]>();
+
   if (menuItemsError) {
-    throw new Error(menuItemsError.message);
+    console.error(menuItemsError);
+    throw new Error("Could not load menu");
   }
 
   const categorizedMenuItems: CategorizedMenuItems = menuItems.reduce(
     (acc, item) => {
-      const category = item.categories.slug;
+      const category = item.category.slug;
       if (!acc[category]) {
         acc[category] = [];
       }
@@ -64,22 +67,7 @@ const getMenuItems = async ({
   return { categorizedMenuItems, count: count ?? 0 };
 };
 
-const buildParams = (
-  initialParams: GetMenuItemsParams,
-  categorySlugParam: string
-) => {
-  const params: GetMenuItemsParams = { ...initialParams };
-
-  params.categorySlug = categorySlugParam;
-  if (categorySlugParam === "promotions") {
-    params.promotions = true;
-    params.categorySlug = "";
-  }
-
-  return params;
-};
-
-export const useMenuItems = (initialParams: GetMenuItemsParams) => {
+export const useMenuItems = (initialParams: GetMenuItemsParams = {}) => {
   const [data, setData] = useState<GetMenuItemsResponse>({
     categorizedMenuItems: {},
     count: 0,
@@ -88,14 +76,20 @@ export const useMenuItems = (initialParams: GetMenuItemsParams) => {
   const [isLoading, setIsLoading] = useState(false);
   const [searchParams] = useSearchParams();
 
-  const categorySlugParam = searchParams.get("category") || "";
-  const params = buildParams(initialParams, categorySlugParam);
+  let categorySlug = searchParams.get("category") || initialParams.categorySlug;
+  let promotions =
+    searchParams.get("promotions") === "true" || initialParams.promotions;
+
+  if (categorySlug === "promotions") {
+    categorySlug = "";
+    promotions = true;
+  }
 
   useEffect(() => {
     const fetchMenuItems = async () => {
       try {
         setIsLoading(true);
-        const response = await getMenuItems(params);
+        const response = await getMenuItems({ categorySlug, promotions });
         setData(response);
       } catch (err) {
         setError(
@@ -107,7 +101,7 @@ export const useMenuItems = (initialParams: GetMenuItemsParams) => {
     };
 
     fetchMenuItems();
-  }, [searchParams]);
+  }, [categorySlug, promotions]);
 
   return { data, isLoading, error };
 };

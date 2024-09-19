@@ -8,11 +8,11 @@ import { Message } from "@/components/ui/message";
 import { CartList } from "@/features/cart/components/CartList";
 import { useCart } from "@/features/cart/contexts/CartContext";
 import { CreateOrderForm } from "./CreateOrderForm";
-import { CreaterOrderInputValues, useCreateOrder } from "../api/createOrder";
-import { OrderItem } from "@/types/api";
-import { CartActionTypes } from "@/features/cart/types";
+import { CreateOrderFormValues, useCreateOrder } from "../api/createOrder";
+import { CartActionTypes } from "@/features/cart/contexts/CartContext";
 import { useLocalStorage } from "@/hooks/useLocalStorage";
-import { isObjectDifferent } from "@/utils";
+import { isObjectDifferent } from "@/utils/object";
+import { calculateCartTotals } from "@/features/cart/utils";
 
 export const CreateOrderView: React.FC = () => {
   const {
@@ -21,53 +21,49 @@ export const CreateOrderView: React.FC = () => {
   } = useCart();
   const { createOrder, isLoading } = useCreateOrder();
   const navigate = useNavigate();
-  const [userInfo, setUserInfo] = useLocalStorage<CreaterOrderInputValues>(
+  const [userInfo, setUserInfo] = useLocalStorage<CreateOrderFormValues>(
     "userInfo",
     {
-      full_name: "",
-      email_address: "",
-      phone_number: "",
-      street_address: "",
+      fullName: "",
+      emailAddress: "",
+      phoneNumber: "",
+      streetAddress: "",
       city: "",
-      postal_code: "",
+      postalCode: "",
     }
   );
 
-  const totalPrice = items.reduce(
-    (acc, item, _) => (acc += item.price * item.quantity),
-    0
-  );
-  const savings = items.reduce((acc, item, _) => {
-    if (item.promotions) {
-      acc += item.promotions.discount_value * item.quantity;
-    }
-    return acc;
-  }, 0);
-  const totalPriceWithSavings = totalPrice - savings;
+  const { totalPrice, savings, totalPriceAfterSavings } =
+    calculateCartTotals(items);
 
-  const handleSubmit = async (data: CreaterOrderInputValues) => {
+  const handleSubmit = async (data: CreateOrderFormValues) => {
+    const {
+      fullName,
+      emailAddress,
+      phoneNumber,
+      streetAddress,
+      city,
+      postalCode,
+    } = data;
+
     toast
       .promise(
         createOrder({
-          total_price: totalPrice,
-          delivery_info: {
-            street_address: data.street_address,
-            city: data.city,
-            postal_code: data.postal_code,
+          totalPrice,
+          deliveryInfo: {
+            streetAddress,
+            city,
+            postalCode,
           },
-          user_info: {
-            full_name: data.full_name,
-            email_address: data.email_address,
-            phone_number: data.phone_number,
+          userInfo: {
+            fullName,
+            emailAddress,
+            phoneNumber,
           },
-          items: items.map(
-            ({ id, quantity, price }): OrderItem => ({
-              order_id: 0,
-              item_id: id,
-              quantity,
-              price_per_item: price,
-            })
-          ),
+          items: items.map(({ id, quantity }) => ({
+            menuItemID: id,
+            quantity,
+          })),
         }),
         {
           loading: "Placing order...",
@@ -75,14 +71,14 @@ export const CreateOrderView: React.FC = () => {
           error: "There was an error trying to place your order :(",
         }
       )
-      .then((orderId) => {
-        navigate(`/orders/${orderId}`);
+      .then(() => {
+        navigate(`/orders/confirmation`);
         dispatch({ type: CartActionTypes.CLEAR_CART });
+
         if (isObjectDifferent(userInfo, data)) {
           setUserInfo(data);
         }
-      })
-      .catch((err) => console.error(err));
+      });
   };
 
   return (
@@ -124,16 +120,16 @@ export const CreateOrderView: React.FC = () => {
             )}
             <p className="flex">
               <span className="text-neutral-700">To pay: </span>
-              <div className="ml-auto">
-                {totalPriceWithSavings !== totalPrice && (
+              <span className="ml-auto">
+                {totalPriceAfterSavings !== totalPrice && (
                   <span className="line-through text-neutral-700">
                     ${totalPrice.toFixed(2)}
                   </span>
                 )}
                 <span className="ml-2 font-bold text-lg">
-                  ${totalPriceWithSavings.toFixed(2)}
+                  ${totalPriceAfterSavings.toFixed(2)}
                 </span>
-              </div>
+              </span>
             </p>
           </section>
         </div>
