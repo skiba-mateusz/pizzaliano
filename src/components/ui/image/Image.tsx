@@ -58,7 +58,7 @@ export const Image: React.FC<ImageProps> = ({
           className={classNames(
             "object-cover",
             {
-              "fade-in": isLoaded && initialRender && !fetch,
+              "fade-in": isLoaded && initialRender && !fetch && lazy,
             },
             className
           )}
