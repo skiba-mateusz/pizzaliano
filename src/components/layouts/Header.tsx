@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import classNames from "classnames";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigation } from "react-router-dom";
 import {
   Bars3BottomLeftIcon,
   ShoppingCartIcon,
@@ -130,6 +130,40 @@ const NavDrawer: React.FC<NavDrawerProps> = ({ open, onClose }) => {
   );
 };
 
+const Progress = () => {
+  const { state, location } = useNavigation();
+  const [progress, setProgress] = useState(0);
+
+  useEffect(() => setProgress(0), [location?.pathname]);
+
+  useEffect(() => {
+    if (state === "loading") {
+      const interval = setInterval(() => {
+        setProgress((prevProgress) => {
+          if (prevProgress === 100) {
+            clearInterval(interval);
+            return 100;
+          }
+          return prevProgress + 10;
+        });
+      }, 100);
+
+      return () => {
+        clearInterval(interval);
+      };
+    }
+  }, [state]);
+
+  if (state !== "loading") return null;
+
+  return (
+    <div
+      className="fixed top-0 left-0 h-1 bg-rose-500 duration-100"
+      style={{ width: `${progress}%` }}
+    ></div>
+  );
+};
+
 export const Header: React.FC = () => {
   const {
     state: { items, numItems },
@@ -150,6 +184,7 @@ export const Header: React.FC = () => {
       )}
     >
       <Container className="h-full flex items-center justify-between">
+        <Progress />
         <Nav />
         <Button
           className="md:hidden"
