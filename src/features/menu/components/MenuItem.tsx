@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { MenuItem as MenuItemType } from "@/types/api";
 import { useCart } from "@/features/cart/contexts/CartContext";
 import { CartActionTypes } from "@/features/cart/contexts/CartContext";
+import { Image } from "@/components/ui/image";
 
 export const MenuItem: React.FC<{ item: MenuItemType }> = ({ item }) => {
   const { dispatch } = useCart();
@@ -20,13 +21,17 @@ export const MenuItem: React.FC<{ item: MenuItemType }> = ({ item }) => {
 
   return (
     <li>
-      <article className="h-full flex flex-col border-b border-neutral-200 hover:shadow-md hover:rounded-md">
-        <img
-          className="rounded-md aspect-square object-cover"
-          src={item.imageUrl}
-          alt={`${item.name} - ${item.description}`}
-          loading="lazy"
-        />
+      <article className="h-full flex flex-col border-b border-neutral-200 group hover:shadow-md hover:rounded-md">
+        <div className="rounded-md overflow-hidden">
+          <Image
+            className="aspect-square duration-200 group-hover:scale-105"
+            src={item.imageUrl}
+            alt={`${item.name} - ${item.description}`}
+            height={360}
+            width={360}
+            lazy
+          />
+        </div>
         <div className="flex-1 flex flex-col">
           <div className="p-2">
             <Heading

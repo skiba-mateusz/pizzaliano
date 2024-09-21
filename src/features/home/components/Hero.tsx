@@ -1,6 +1,7 @@
 import React from "react";
 import { Button } from "@/components/ui/button";
 import { Container } from "@/components/ui/container";
+import { Image } from "@/components/ui/image";
 
 export const Hero: React.FC = () => {
   return (
@@ -18,12 +19,11 @@ export const Hero: React.FC = () => {
             </Button>
           </div>
         </div>
-        <div className="flex-1">
-          <img
-            className="m-auto"
+        <div className="flex-1 flex items-center justify-center">
+          <Image
             src="/images/hero-pizza.png"
             alt="Delicious pizza slice"
-            fetchPriority="high"
+            fetch={true}
             width={492}
             height={492}
           />

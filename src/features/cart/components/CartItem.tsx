@@ -7,6 +7,7 @@ import {
   CartActionTypes,
   CartItem as CartItemType,
 } from "../contexts/CartContext";
+import { Image } from "@/components/ui/image";
 
 interface QuantityControlsProps {
   quantity: number;
@@ -91,11 +92,15 @@ export const CartItem: React.FC<CartItemProps> = ({
   return (
     <li>
       <article className="flex items-center gap-4">
-        <img
-          className="w-[6rem] xl:w-[8rem] rounded-md aspect-square object-cover"
-          src={item.imageUrl}
-          alt={`${item.name} - ${item.description}`}
-        />
+        <div className="w-[6rem] xl:w-[8rem]">
+          <Image
+            className="rounded-md aspect-square"
+            src={item.imageUrl}
+            height={360}
+            width={360}
+            alt={`${item.name} - ${item.description}`}
+          />
+        </div>
         <div className="flex-1 flex items-center flex-wrap gap-4">
           <div className="flex items-center gap-4 flex-1">
             <div className="flex-1">
