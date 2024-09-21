@@ -41,7 +41,7 @@ export const CreateOrderRoute: React.FC = () => {
                   items={items}
                   totalPrice={totalPriceAfterSavings}
                   onSuccess={() => {
-                    navigate(`/orders/confirmation`);
+                    navigate(`/order/confirmation`);
                     dispatch({ type: CartActionTypes.CLEAR_CART });
                   }}
                 />

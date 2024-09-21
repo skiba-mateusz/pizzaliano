@@ -37,6 +37,15 @@ const router = createBrowserRouter([
         },
       },
       {
+        path: "/order/confirmation",
+        lazy: async () => {
+          const { OrderConfirmationRoute } = await import(
+            "./routes/orders/OrderConfirmation"
+          );
+          return { Component: OrderConfirmationRoute };
+        },
+      },
+      {
         path: "*",
         lazy: async () => {
           const { NotFoundRoute } = await import("./routes/NotFound");
