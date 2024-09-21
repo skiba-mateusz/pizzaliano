@@ -14,7 +14,7 @@ export const Promotions: React.FC = () => {
   const items = Object.values(categorizedMenuItems).flat();
 
   return (
-    <section className="py-12">
+    <section className="py-8">
       <Container variant="narrow">
         <Heading level="h2">Promotions</Heading>
         {!isLoading ? <MenuList items={items} /> : <Loader />}

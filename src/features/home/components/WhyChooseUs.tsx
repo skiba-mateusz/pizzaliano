@@ -20,7 +20,7 @@ const WhyUsCard: React.FC<{ title: string; description: string }> = ({
 
 export const WhyChooseUs: React.FC = () => {
   return (
-    <section className="py-12 grid grid-cols-1 grid-rows-[6rem_6rem_auto]">
+    <section className="py-8 grid grid-cols-1 grid-rows-[6rem_6rem_auto_2rem]">
       <div className="col-span-full row-span-full bg-rose-500 md:row-start-1 md:row-end-3">
         <Heading
           className="mt-8 text-neutral-50 text-center"

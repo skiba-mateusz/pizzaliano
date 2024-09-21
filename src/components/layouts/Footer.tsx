@@ -2,6 +2,7 @@ import React from "react";
 import { Container } from "../ui/container";
 import { Logo } from "../ui/logo";
 import { Link } from "@/components/ui/link";
+import { Image } from "../ui/image";
 
 const Nav: React.FC = () => {
   return (
@@ -30,10 +31,20 @@ const Socials: React.FC = () => {
   return (
     <div aria-label="Socials" className="flex gap-4">
       <Link to="https://instagram.com" target="blank">
-        <img src="/icons/instagram.svg" alt="Instagram" />
+        <Image
+          src="/icons/instagram.svg"
+          height={24}
+          width={24}
+          alt="Instagram"
+        />
       </Link>
       <Link to="http://facebook.com" target="blank">
-        <img src="/icons/facebook.svg" alt="Facebook" />
+        <Image
+          src="/icons/facebook.svg"
+          height={24}
+          width={24}
+          alt="Facebook"
+        />
       </Link>
     </div>
   );
