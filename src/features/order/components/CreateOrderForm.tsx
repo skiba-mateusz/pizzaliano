@@ -1,28 +1,88 @@
 import React from "react";
+import toast from "react-hot-toast";
 import { FormProvider, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { useLocalStorage } from "@/hooks/useLocalStorage";
 import {
   CreateOrderFormValues,
   createOrderFormSchema,
+  useCreateOrder,
 } from "../api/createOrder";
+import { CartItem } from "@/features/cart/contexts/CartContext";
+import { isObjectDifferent } from "@/utils/object";
 
 interface CreateOrderFormProps {
-  onSubmit: (data: CreateOrderFormValues) => Promise<void>;
-  defaultValues: CreateOrderFormValues;
-  isLoading: boolean;
+  onSuccess: () => void;
+  items: CartItem[];
+  totalPrice: number;
 }
 
 export const CreateOrderForm: React.FC<CreateOrderFormProps> = ({
-  onSubmit,
-  defaultValues,
-  isLoading,
+  onSuccess,
+  items,
+  totalPrice,
 }) => {
+  const { createOrder, isLoading } = useCreateOrder();
+  const [userInfo, setUserInfo] = useLocalStorage<CreateOrderFormValues>(
+    "userInfo",
+    {
+      fullName: "",
+      emailAddress: "",
+      phoneNumber: "",
+      streetAddress: "",
+      city: "",
+      postalCode: "",
+    }
+  );
   const methods = useForm<CreateOrderFormValues>({
     resolver: yupResolver(createOrderFormSchema),
-    defaultValues,
+    defaultValues: userInfo,
   });
+
+  const onSubmit = async (data: CreateOrderFormValues) => {
+    const {
+      fullName,
+      emailAddress,
+      phoneNumber,
+      streetAddress,
+      city,
+      postalCode,
+    } = data;
+
+    toast
+      .promise(
+        createOrder({
+          totalPrice,
+          deliveryInfo: {
+            streetAddress,
+            city,
+            postalCode,
+          },
+          userInfo: {
+            fullName,
+            emailAddress,
+            phoneNumber,
+          },
+          items: items.map(({ id, quantity }) => ({
+            menuItemID: id,
+            quantity,
+          })),
+        }),
+        {
+          loading: "Placing order...",
+          success: "Order placed successfully",
+          error: "There was an error trying to place your order :(",
+        }
+      )
+      .then(() => {
+        onSuccess();
+        if (isObjectDifferent(userInfo, data)) {
+          setUserInfo(data);
+        }
+      });
+  };
 
   return (
     <FormProvider {...methods}>

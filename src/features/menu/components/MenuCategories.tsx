@@ -8,19 +8,18 @@ import {
 } from "@/components/ui/radio-group";
 import { Container } from "@/components/ui/container";
 import { useSticky } from "@/hooks/useSticky";
-import { Category } from "@/types/api";
+import { useCategories } from "../api/getCategories";
 
-interface MenuCategoriesProps {
-  categories: Category[];
-}
-
-export const MenuCategories: React.FC<MenuCategoriesProps> = ({
-  categories,
+export const MenuCategories: React.FC<{ isLoading: boolean }> = ({
+  isLoading,
 }) => {
+  const { categories } = useCategories();
   const [searchParams, setSearchParams] = useSearchParams();
   const [ref, sticky] = useSticky<HTMLDivElement>(64);
 
   const defaultCategory = searchParams.get("category") || "";
+
+  if (isLoading) return null;
 
   return (
     <div

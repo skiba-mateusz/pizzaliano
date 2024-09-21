@@ -11,7 +11,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({
     <React.Suspense fallback={<FullPageLoader />}>
       <ErrorBoundary FallbackComponent={MainErrorFallback}>
         <CartProvider>{children}</CartProvider>
-      </ErrorBoundary>{" "}
+      </ErrorBoundary>
     </React.Suspense>
   );
 };

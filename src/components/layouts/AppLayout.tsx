@@ -1,10 +1,10 @@
 import React, { useEffect } from "react";
-import { Outlet, useLocation } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import { Header } from "./Header";
 import { Footer } from "./Footer";
 import { Toaster } from "react-hot-toast";
 
-export const AppLayout: React.FC = () => {
+export const AppLayout: React.FC<React.PropsWithChildren> = ({ children }) => {
   const { pathname } = useLocation();
 
   useEffect(() => {
@@ -22,9 +22,7 @@ export const AppLayout: React.FC = () => {
         }}
       />
       <Header />
-      <main className="flex-1">
-        <Outlet />
-      </main>
+      <main className="flex-1">{children}</main>
       <Footer />
     </>
   );
