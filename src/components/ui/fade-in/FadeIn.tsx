@@ -21,13 +21,12 @@ export const FadeIn: React.FC<FadeInProps> = ({
       ([entry]) => {
         if (entry.isIntersecting) {
           setIsVisible(true);
-          observer.observe(entry.target);
+          observer.unobserve(entry.target);
         }
       },
       {
         root: null,
-        threshold: 0.1,
-        rootMargin: "0px",
+        threshold: 0,
       }
     );
 
@@ -42,14 +41,16 @@ export const FadeIn: React.FC<FadeInProps> = ({
     };
   }, []);
 
+  console.log(isVisible);
+
   return createElement(
     as,
     {
       ref,
+      style: { transition: `${duration}ms` },
       className: classNames(
-        `duration-${duration}`,
         {
-          "translate-y-[2rem] opacity-0 transition-all": !isVisible,
+          "translate-y-[2rem] opacity-0": !isVisible,
           "": isVisible,
         },
         className
