@@ -1,11 +1,11 @@
 import React, { useEffect, useRef } from "react";
-import classNames from "classnames";
 import { Loader } from "@/components/ui/loader/Loader";
 import { useSearchParams } from "react-router-dom";
 import { useMenuItems } from "@/features/menu/api/getMenuItems";
 import { MenuCategories } from "@/features/menu/components/MenuCategories";
 import { MenuSection } from "@/features/menu/components/MenuSection";
 import { Head } from "@/components/seo";
+import { FadeIn } from "@/components/ui/fade-in";
 
 export const MenuRoute: React.FC = () => {
   const {
@@ -32,10 +32,7 @@ export const MenuRoute: React.FC = () => {
       />
       <MenuCategories isLoading={isLoading} />
       {!isLoading ? (
-        <div
-          ref={ref}
-          className={classNames("translate-y-16 opacity-0 duration-500")}
-        >
+        <FadeIn>
           {categorySlugParam !== "promotions" ? (
             Object.keys(categorizedMenuItems).map((category) => {
               if (categorizedMenuItems[category].length > 0)
@@ -53,7 +50,7 @@ export const MenuRoute: React.FC = () => {
               items={Object.values(categorizedMenuItems).flat()}
             />
           )}
-        </div>
+        </FadeIn>
       ) : (
         <Loader />
       )}
