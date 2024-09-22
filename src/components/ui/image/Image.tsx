@@ -26,7 +26,6 @@ export const Image: React.FC<ImageProps> = ({
   className = "",
 }) => {
   const [isLoaded, setIsLoaded] = useState(false);
-  const [initialRender, setInitialRender] = useState(true);
 
   useEffect(() => {
     if (fetch) {
@@ -39,7 +38,6 @@ export const Image: React.FC<ImageProps> = ({
 
     if (img.complete) {
       setIsLoaded(true);
-      setInitialRender(false);
     } else {
       img.onload = () => {
         setIsLoaded(true);
@@ -58,7 +56,7 @@ export const Image: React.FC<ImageProps> = ({
           className={classNames(
             "object-cover",
             {
-              "fade-in": isLoaded && initialRender && !fetch && lazy,
+              "fade-in": isLoaded && !fetch && lazy,
             },
             className
           )}

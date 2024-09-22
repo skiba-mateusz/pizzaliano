@@ -3,8 +3,8 @@ import { Container } from "@/components/ui/container";
 import { MenuList } from "@/features/menu/components/MenuList";
 import { Heading } from "@/components/ui/heading";
 import { useMenuItems } from "@/features/menu/api/getMenuItems";
-import { Loader } from "@/components/ui/loader/Loader";
 import { Message } from "@/components/ui/message";
+import { MenuSkeleton } from "@/features/menu/components/MenuSkeleton";
 
 export const Promotions: React.FC = () => {
   const {
@@ -24,7 +24,7 @@ export const Promotions: React.FC = () => {
         ) : !isLoading ? (
           <MenuList items={items} />
         ) : (
-          <Loader />
+          <MenuSkeleton />
         )}
       </Container>
     </section>

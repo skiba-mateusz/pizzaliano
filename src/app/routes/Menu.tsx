@@ -1,5 +1,4 @@
-import React, { useEffect, useRef } from "react";
-import { Loader } from "@/components/ui/loader/Loader";
+import React from "react";
 import { useSearchParams } from "react-router-dom";
 import { useMenuItems } from "@/features/menu/api/getMenuItems";
 import { MenuCategories } from "@/features/menu/components/MenuCategories";
@@ -8,6 +7,7 @@ import { Head } from "@/components/seo";
 import { FadeIn } from "@/components/ui/fade-in";
 import { Message } from "@/components/ui/message";
 import { Container } from "@/components/ui/container";
+import { MenuSkeleton } from "@/features/menu/components/MenuSkeleton";
 
 export const MenuRoute: React.FC = () => {
   const {
@@ -16,16 +16,8 @@ export const MenuRoute: React.FC = () => {
     error,
   } = useMenuItems();
   const [searchParams] = useSearchParams();
-  const ref = useRef<HTMLDivElement | null>(null);
 
   const categorySlugParam = searchParams.get("category");
-
-  useEffect(() => {
-    if (!isLoading && ref.current) {
-      ref.current.classList.remove("translate-y-16");
-      ref.current.classList.remove("opacity-0");
-    }
-  }, [isLoading]);
 
   if (error) {
     return (
@@ -41,7 +33,7 @@ export const MenuRoute: React.FC = () => {
         title="Explore Our Menu"
         description="Discover our diverse menu featuring a wide range of delicious dishes. Find your new favorite meal today!"
       />
-      <MenuCategories isLoadingMenu={isLoading} />
+      <MenuCategories />
       {!isLoading ? (
         <FadeIn>
           {categorySlugParam !== "promotions" ? (
@@ -63,7 +55,9 @@ export const MenuRoute: React.FC = () => {
           )}
         </FadeIn>
       ) : (
-        <Loader />
+        <Container variant="narrow">
+          <MenuSkeleton />
+        </Container>
       )}
     </>
   );

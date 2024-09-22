@@ -9,17 +9,14 @@ import {
 import { Container } from "@/components/ui/container";
 import { useSticky } from "@/hooks/useSticky";
 import { useCategories } from "../api/getCategories";
+import { MenuCategoriesSkeleton } from "./MenuCategoriesSkeleton";
 
-export const MenuCategories: React.FC<{ isLoadingMenu: boolean }> = ({
-  isLoadingMenu,
-}) => {
-  const { categories, isLoading: isLoadingCategories } = useCategories();
+export const MenuCategories: React.FC = () => {
+  const { categories, isLoading } = useCategories();
   const [searchParams, setSearchParams] = useSearchParams();
   const [ref, sticky] = useSticky<HTMLDivElement>(64);
 
   const defaultCategory = searchParams.get("category") || "";
-
-  if (isLoadingCategories && isLoadingMenu) return null;
 
   return (
     <div
@@ -32,18 +29,22 @@ export const MenuCategories: React.FC<{ isLoadingMenu: boolean }> = ({
       )}
     >
       <Container variant="narrow">
-        <RadioGroup defaultValue={defaultCategory}>
-          <RadioGroupLabel>Select category</RadioGroupLabel>
-          {categories.map((category) => (
-            <RadioGroupInput
-              key={category.slug}
-              onChange={(value) => setSearchParams({ category: value })}
-              value={category.slug}
-            >
-              {category.name}
-            </RadioGroupInput>
-          ))}
-        </RadioGroup>
+        {!isLoading ? (
+          <RadioGroup defaultValue={defaultCategory}>
+            <RadioGroupLabel>Select category</RadioGroupLabel>
+            {categories.map((category) => (
+              <RadioGroupInput
+                key={category.slug}
+                onChange={(value) => setSearchParams({ category: value })}
+                value={category.slug}
+              >
+                {category.name}
+              </RadioGroupInput>
+            ))}
+          </RadioGroup>
+        ) : (
+          <MenuCategoriesSkeleton />
+        )}
       </Container>
     </div>
   );
