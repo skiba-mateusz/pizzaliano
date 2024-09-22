@@ -3,7 +3,7 @@ import classNames from "classnames";
 
 const variants = {
   info: "text-neutral-700 bg-neutral-100",
-  error: "",
+  error: "bg-rose-200 text-rose-800",
   success: "",
 };
 

@@ -10,16 +10,16 @@ import { Container } from "@/components/ui/container";
 import { useSticky } from "@/hooks/useSticky";
 import { useCategories } from "../api/getCategories";
 
-export const MenuCategories: React.FC<{ isLoading: boolean }> = ({
-  isLoading,
+export const MenuCategories: React.FC<{ isLoadingMenu: boolean }> = ({
+  isLoadingMenu,
 }) => {
-  const { categories } = useCategories();
+  const { categories, isLoading: isLoadingCategories } = useCategories();
   const [searchParams, setSearchParams] = useSearchParams();
   const [ref, sticky] = useSticky<HTMLDivElement>(64);
 
   const defaultCategory = searchParams.get("category") || "";
 
-  if (isLoading) return null;
+  if (isLoadingCategories && isLoadingMenu) return null;
 
   return (
     <div

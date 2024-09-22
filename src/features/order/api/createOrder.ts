@@ -31,7 +31,13 @@ export const createOrderFormSchema = yup.object().shape({
     .required("City is required")
     .min(3, "City name needs to be at least 3 characters long"),
 
-  postalCode: yup.string().required("Postal code is required"),
+  postalCode: yup
+    .string()
+    .required("Postal code is required")
+    .test("valid-postal-code", "Postal code is invalid", (value) => {
+      if (!value) return false;
+      return value.replace("_", "").length === value.length;
+    }),
 });
 
 export type CreateOrderFormValues = yup.InferType<typeof createOrderFormSchema>;

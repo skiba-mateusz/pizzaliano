@@ -41,8 +41,6 @@ export const FadeIn: React.FC<FadeInProps> = ({
     };
   }, []);
 
-  console.log(isVisible);
-
   return createElement(
     as,
     {

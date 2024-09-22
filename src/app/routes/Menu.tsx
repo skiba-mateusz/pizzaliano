@@ -6,11 +6,14 @@ import { MenuCategories } from "@/features/menu/components/MenuCategories";
 import { MenuSection } from "@/features/menu/components/MenuSection";
 import { Head } from "@/components/seo";
 import { FadeIn } from "@/components/ui/fade-in";
+import { Message } from "@/components/ui/message";
+import { Container } from "@/components/ui/container";
 
 export const MenuRoute: React.FC = () => {
   const {
     data: { categorizedMenuItems },
     isLoading,
+    error,
   } = useMenuItems();
   const [searchParams] = useSearchParams();
   const ref = useRef<HTMLDivElement | null>(null);
@@ -24,13 +27,21 @@ export const MenuRoute: React.FC = () => {
     }
   }, [isLoading]);
 
+  if (error) {
+    return (
+      <Container>
+        <Message variant="error">{error}</Message>
+      </Container>
+    );
+  }
+
   return (
     <>
       <Head
         title="Explore Our Menu"
         description="Discover our diverse menu featuring a wide range of delicious dishes. Find your new favorite meal today!"
       />
-      <MenuCategories isLoading={isLoading} />
+      <MenuCategories isLoadingMenu={isLoading} />
       {!isLoading ? (
         <FadeIn>
           {categorySlugParam !== "promotions" ? (
