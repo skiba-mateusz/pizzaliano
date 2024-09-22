@@ -12,8 +12,8 @@ export const HomeRoute: React.FC = () => {
         description="Discover our delicious menu with fast delivery, good prices and excellent tase. Order now and experience the best food in the town"
       />
       <Hero />
-      <Promotions />
       <WhyChooseUs />
+      <Promotions />
     </>
   );
 };

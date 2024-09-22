@@ -19,11 +19,11 @@ export const Hero: React.FC = () => {
             </Button>
           </div>
         </div>
-        <div className="flex-1 flex items-center justify-center">
+        <div className="">
           <Image
             src="/images/hero-pizza.png"
             alt="Delicious pizza slice"
-            fetch={true}
+            fetch
             width={492}
             height={392}
           />

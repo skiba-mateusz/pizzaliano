@@ -25,13 +25,10 @@ export const Image: React.FC<ImageProps> = ({
   blurHash = "LJFN*LD+0g-.}?NHIot659xs$#RQ",
   className = "",
 }) => {
-  const [isLoaded, setIsLoaded] = useState(false);
+  const [isLoaded, setIsLoaded] = useState(fetch);
 
   useEffect(() => {
-    if (fetch) {
-      setIsLoaded(true);
-      return;
-    }
+    if (fetch) return;
 
     const img = new window.Image();
     img.src = src;
@@ -47,7 +44,7 @@ export const Image: React.FC<ImageProps> = ({
     return () => {
       img.onload = null;
     };
-  }, [src]);
+  }, [src, fetch]);
 
   return (
     <>
@@ -67,9 +64,7 @@ export const Image: React.FC<ImageProps> = ({
           width={width}
           loading={lazy ? "lazy" : undefined}
         />
-      ) : (
-        ""
-      )}
+      ) : null}
       {!isLoaded ? (
         <Blurhash
           className={classNames("overflow-hidden", className)}
@@ -80,9 +75,7 @@ export const Image: React.FC<ImageProps> = ({
           resolutionY={32}
           punch={1}
         />
-      ) : (
-        ""
-      )}
+      ) : null}
     </>
   );
 };

@@ -7,7 +7,7 @@ import { Image } from "../ui/image";
 const Nav: React.FC = () => {
   return (
     <nav aria-label="footer">
-      <ul className="flex gap-x-8 gap-y-2 text-nowrap">
+      <ul className="flex gap-x-8 gap-y-2 flex-wrap text-nowrap">
         <li>
           <Link to="/" className="text-neutral-700">
             Privacy policy
@@ -52,7 +52,7 @@ const Socials: React.FC = () => {
 
 export const Footer: React.FC = () => {
   return (
-    <footer className="py-8 border-t border-neutral-300">
+    <footer className="mt-8 py-8 border-t border-neutral-300">
       <Container className="flex flex-col gap-4 items-center">
         <Logo />
         <Nav />
