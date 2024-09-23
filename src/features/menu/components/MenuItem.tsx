@@ -22,7 +22,7 @@ export const MenuItem: React.FC<{ item: MenuItemType }> = ({ item }) => {
   return (
     <li>
       <article className="h-full flex flex-col border-b border-neutral-200 group hover:shadow-md hover:rounded-md">
-        <div className="rounded-md overflow-hidden">
+        <div className="rounded-md overflow-hidden -z-[1]">
           <Image
             className="aspect-square duration-200 group-hover:scale-105"
             src={item.imageUrl}

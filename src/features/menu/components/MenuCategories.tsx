@@ -22,7 +22,7 @@ export const MenuCategories: React.FC = () => {
     <div
       ref={ref}
       className={classNames(
-        "p-4",
+        "p-4 z-10",
         sticky
           ? "sticky top-[4rem] bg-neutral-50 shadow-md"
           : "static shadow-none"
