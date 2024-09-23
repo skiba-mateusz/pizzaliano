@@ -99,6 +99,7 @@ export const CartItem: React.FC<CartItemProps> = ({
             height={360}
             width={360}
             alt={`${item.name} - ${item.description}`}
+            blurHash={item.blurHash}
           />
         </div>
         <div className="flex-1 flex items-center flex-wrap gap-4">

@@ -29,6 +29,7 @@ export const MenuItem: React.FC<{ item: MenuItemType }> = ({ item }) => {
             alt={`${item.name} - ${item.description}`}
             height={360}
             width={360}
+            blurHash={item.blurHash}
             lazy
           />
         </div>

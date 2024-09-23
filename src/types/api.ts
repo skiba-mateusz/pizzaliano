@@ -20,6 +20,7 @@ export interface MenuItem {
   price: number;
   imageUrl: string;
   isAvailable: boolean;
+  blurHash: string;
   categoryID: number;
   category: Category;
   promotionID?: number;
